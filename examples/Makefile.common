@@ -1,0 +1,25 @@
+NUCLEI_SDK_ROOT ?= ../../../nuclei-sdk
+
+SRCDIRS = .
+INCDIRS = . include
+
+COMMON_FLAGS ?= -O3
+
+STDCLIB ?= newlib_small
+
+# when ARCH_EXT=pv P-ext and V-ext will be enabled
+# and P-ext/V-ext optimized library will be selected
+# see NMSIS/build.mk
+CORE ?= ux900fd
+DOWNLOAD ?= ilm
+ARCH_EXT ?= v
+LDLIBS ?= -lm
+ifneq ($(DOWNLOAD),ddr)
+LINKER_SCRIPT ?= ../gcc_512K.ld
+endif
+
+MIDDLEWARE_TINYMAIX := ../..
+
+include $(MIDDLEWARE_TINYMAIX)/build.mk
+
+include $(NUCLEI_SDK_ROOT)/Build/Makefile.base
