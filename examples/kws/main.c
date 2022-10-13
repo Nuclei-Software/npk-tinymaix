@@ -25,8 +25,8 @@ limitations under the License.
 
 static const char* kws_str[KWS_CNT] = {"Hi xiaowen", "Nihao wenwen", "Background"};
 
-#include "audio/0a.c"  //hi xiaowen, male
-//#include "audio/fbank0a.c"  //hi xiaowen, female
+//#include "audio/0a.c"  //hi xiaowen, male
+#include "audio/fbank0a.c"  //hi xiaowen, female
 //#include "audio/fbank1a.c"  //nihao wenwen, male
 //#include "audio/fbank2a.c"  //noise
 //#include "audio/fbank2b.c"  //noise
