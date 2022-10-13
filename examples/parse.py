@@ -24,8 +24,9 @@ def parse_benchmark(lines, lgf=""):
     for line in lines:
         stripline = line.strip()
         if stripline.startswith("===tm_run use"):
-            value = stripline.split()[-2]
-            result["time/ms"] = value
+            value, unit = stripline.split()[-2:]
+            key = "time/%s" % (unit)
+            result[key] = value
         if stripline.startswith("Total param"):
             try:
                 # example line
