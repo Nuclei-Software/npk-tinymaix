@@ -12,7 +12,7 @@ STDCLIB ?= newlib_small
 # see NMSIS/build.mk
 CORE ?= ux900fd
 DOWNLOAD ?= ilm
-ARCH_EXT ?= v
+ARCH_EXT ?=
 LDLIBS ?= -lm
 ifneq ($(DOWNLOAD),ddr)
 LINKER_SCRIPT ?= ../gcc_512K.ld
