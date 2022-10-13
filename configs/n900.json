@@ -1,0 +1,24 @@
+{
+    "run_config": {
+        "target" : "hardware",
+        "hardware" : {
+            "baudrate": 115200,
+            "timeout": 60
+        },
+        "qemu": {
+            "qemu32": "qemu-system-riscv32",
+            "qemu64": "qemu-system-riscv64",
+            "timeout": 60
+        }
+    },
+    "build_configs": {
+        "rv32imafdcv_ilm" : {"CORE": "n900fd", "ARCH_EXT": "v", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
+        "rv32imafdc_ilm" : {"CORE": "n900fd", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"}
+    },
+    "expecteds" : {
+        "examples/mbnet" : {
+            "rv32imafdcv_ilm" : {"build": false},
+            "rv32imafdc_ilm" : {"build": false}
+        }
+    }
+}
