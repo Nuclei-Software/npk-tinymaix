@@ -10,12 +10,21 @@ STDCLIB ?= newlib_small
 # when ARCH_EXT=pv P-ext and V-ext will be enabled
 # and P-ext/V-ext optimized library will be selected
 # see NMSIS/build.mk
-CORE ?= ux900fd
+SOC ?= demosoc
+CORE ?= n300fd
 DOWNLOAD ?= ilm
 ARCH_EXT ?=
 LDLIBS ?= -lm
-ifneq ($(DOWNLOAD),ddr)
+
+# use different linker script file for evalsoc and demosoc
+# when DOWNLOAD=ilm
+ifeq ($(DOWNLOAD),ilm)
+ifeq ($(SOC),demosoc)
 LINKER_SCRIPT ?= ../gcc_512K.ld
+endif
+ifeq ($(SOC),evalsoc)
+LINKER_SCRIPT ?= ../gcc_512K.ld
+endif
 endif
 
 MIDDLEWARE_TINYMAIX := ../..
