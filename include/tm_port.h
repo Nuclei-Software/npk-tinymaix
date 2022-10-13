@@ -58,9 +58,10 @@ limitations under the License.
 #include <time.h>
 #define  TM_GET_US()       ((uint32_t)((uint64_t)clock()*1000000/CLOCKS_PER_SEC))
 
-#define TM_DBGT_INIT()     uint32_t _start,_finish;float _time;_start=TM_GET_US();
+#define TM_DBGT_INIT()     uint32_t _start,_finish; float _time;_start=TM_GET_US();
 #define TM_DBGT_START()    _start=TM_GET_US();
 #define TM_DBGT(x)         {_finish=TM_GET_US();\
+                            TM_PRINTF("===%s start %u us, finish %u us\n", (x), _start, _finish);\
                             _time = (float)(_finish-_start)/1000.0;\
                             TM_PRINTF("===%s use %.3f ms\n", (x), _time);\
                             _start=TM_GET_US();}
