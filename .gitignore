@@ -70,3 +70,8 @@ model*.h
 model*.tmdl
 img_data.c
 
+*.dump
+*.dasm
+*.verilog
+*.srec
+logs*
