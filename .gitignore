@@ -75,3 +75,4 @@ img_data.c
 *.verilog
 *.srec
 logs*
+*.log
