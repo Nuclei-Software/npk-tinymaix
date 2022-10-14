@@ -16,6 +16,14 @@ CORE ?= n300fd
 DOWNLOAD ?= ilm
 ARCH_EXT ?=
 LDLIBS ?= -lm
+# see tinymaix.h
+# proper values startswith TM_MDL_*, such as TM_MDL_INT8
+# eg. TM_MDL_TYPE=TM_MDL_FP32
+TM_MDL_TYPE ?=
+
+ifneq ($(TM_MDL_TYPE),)
+COMMON_FLAGS += -DTM_MDL_TYPE=$(TM_MDL_TYPE)
+endif
 
 # use different linker script file for evalsoc and demosoc
 # when DOWNLOAD=ilm
