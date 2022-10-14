@@ -1,7 +1,8 @@
 NUCLEI_SDK_ROOT ?= ../../../nuclei-sdk
 
 SRCDIRS = .
-INCDIRS = . include
+# ../../.. is <tinymaix> folder
+INCDIRS = . include ../..
 
 COMMON_FLAGS ?= -O3
 
