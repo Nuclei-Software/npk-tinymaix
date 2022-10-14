@@ -1,4 +1,6 @@
+#!/bin/env python3
 import os
+import sys
 
 PROGRAM_UNKNOWN="unknown"
 def find_index(key, arr):
@@ -21,12 +23,17 @@ def parse_benchmark(lines, lgf=""):
         subtype = appnormdirs[index + 1]
     program_type = "%s_%s" % (program_type, subtype)
     result = dict()
+    cpufreq = 16000000
     for line in lines:
         stripline = line.strip()
+        if stripline.startswith("CPU Frequency"):
+            cpufreq = int(stripline.split()[-2])
+            result["freq/HZ"] = cpufreq
         if stripline.startswith("===tm_run use"):
             value, unit = stripline.split()[-2:]
             key = "time/%s" % (unit)
             result[key] = value
+            result["cycle"] = int(float(value) * cpufreq / 1000)
         if stripline.startswith("Total param"):
             try:
                 # example line
@@ -39,5 +46,23 @@ def parse_benchmark(lines, lgf=""):
                     result[key] = value
             except:
                 continue
+    if len(result) > 0:
+        return program_type, subtype, result
+    else:
+        return PROGRAM_UNKNOWN, PROGRAM_UNKNOWN, None
 
-    return program_type, subtype, result
+# simple entry to test on log
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: %s <run log>" % (sys.argv[0]))
+        sys.exit(1)
+    runlog = sys.argv[1]
+    if os.path.isfile(runlog) == False:
+        print("Run log file %s not exit!" % (runlog))
+        sys.exit(1)
+
+    rfh = open(runlog)
+    lines = rfh.readlines()
+    rfh.close()
+    print("Parsing benchmark from %s" %(runlog))
+    print(parse_benchmark(lines, runlog))
