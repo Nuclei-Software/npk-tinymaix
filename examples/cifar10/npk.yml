@@ -1,0 +1,55 @@
+## Package Base Information
+name: app-tinymaix_cifar10
+owner: nuclei
+version:
+description: Tinymaix cifar10 demo
+type: app
+keywords:
+  - baremetal
+  - tinyml
+  - tinymaix
+  - ai
+category: tinymaix ml application
+license: Apache-2.0
+homepage: https://github.com/riscv-mcu/TinyMaix/tree/nuclei-main/examples/cifar10
+
+## Package Dependency
+dependencies:
+
+## Package Configurations
+configuration:
+  app_commonflags:
+    value: -O3
+    type: text
+    description: Application Compile Flags
+
+## Set Configuration for other packages
+setconfig:
+
+
+## Source Code Management
+codemanage:
+  copyfiles:
+    - path: ["*.c", "*.h", "pic"]
+    - path: ["../../tools/tmdl/cifar10_*.h"]
+  incdirs:
+    - path: ["./"]
+  libdirs:
+  ldlibs:
+    - libs: []
+
+## Build Configuration
+buildconfig:
+  - type: gcc
+    common_flags: # flags need to be combined together across all packages
+      - flags: ${app_commonflags}
+    ldflags:
+    cflags:
+    asmflags:
+    cxxflags:
+    prebuild_steps: # could be override by app/bsp type
+      command:
+      description:
+    postbuild_steps: # could be override by app/bsp type
+      command:
+      description:

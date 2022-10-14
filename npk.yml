@@ -1,0 +1,29 @@
+## Package Base Information
+name: mwp-libtinymaix
+owner: nuclei
+description: Tiny inference library for microcontrollers(TinyML)
+type: mwp
+keywords:
+  - library
+  - tinyml
+  - ai
+version: 1.0.0
+license: Apache-2.0
+homepage: https://github.com/riscv-mcu/TinyMaix
+
+packinfo:
+  name: Tiny inference library for microcontrollers(TinyML)
+  doc:
+    website: https://github.com/riscv-mcu/TinyMaix
+    usermanual: https://github.com/riscv-mcu/TinyMaix/blob/nuclei-main/doc/porting/port_Nuclei.md
+
+## Source Code Management
+codemanage:
+  installdir: tinymaix
+  copyfiles:
+    - path: ["src/", "include/"]
+  incdirs:
+    - path: ["src/", "include/"]
+  libdirs:
+  ldlibs:
+    - libs: [m]
