@@ -14,9 +14,9 @@ limitations under the License.
 #include "tinymaix.h"
 
 #if TM_MDL_TYPE == TM_MDL_INT8
-#include "../../tools/tmdl/cifar10_q.h"
+#include "tools/tmdl/cifar10_q.h"
 #elif TM_MDL_TYPE == TM_MDL_FP32
-#include "../../tools/tmdl/cifar10_f.h"
+#include "tools/tmdl/cifar10_f.h"
 #else
 #error "fill your modl path here"
 #endif
