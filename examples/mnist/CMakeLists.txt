@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 ")
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/../../src lib_tinymaix)
 
-include_directories(. ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
+include_directories(. ${CMAKE_CURRENT_SOURCE_DIR}/../../include ../..)
 
 #set(LIB_INFER ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/libtinymaix.a)
 
