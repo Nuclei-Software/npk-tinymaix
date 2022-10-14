@@ -40,6 +40,10 @@ if [ "x$DRYRUN" == "x0" ] ; then
         echo "NUCLEI_SDK_ROOT is not set in environment variables"
         exit 1
     fi
+    if [ -d ${LOGDIR} ] ; then
+        echo "Remove previously existed log directory ${LOGDIR}"
+        rm -rf ${LOGDIR}
+    fi
     eval $runcmd
 fi
 
