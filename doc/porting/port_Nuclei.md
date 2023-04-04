@@ -47,7 +47,7 @@ TinyMaix port to Nuclei RISC-V Processor can be found in https://github.com/risc
 ~~~shell
 git clone https://github.com/Nuclei-Software/nuclei-sdk
 # export NUCLEI_SDK_ROOT environment variable is required
-export NUCLEI_SDK_ROOT=(readlink -f nuclei-sdk)
+export NUCLEI_SDK_ROOT=$(readlink -f nuclei-sdk)
 # follow steps in https://doc.nucleisys.com/nuclei_sdk/quickstart.html#use-prebuilt-tools-in-nuclei-studio setup toolchain environment
 ~~~
 
