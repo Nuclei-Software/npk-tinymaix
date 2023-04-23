@@ -27,6 +27,7 @@ ENTRY( _start )
 
 MEMORY
 {
+  /* you can change ilm/ram length from 512K to bigger size, if your ILM/DLM has bigger size, such as 4M */
   ilm (rxa!w) : ORIGIN = 0x80000000, LENGTH = 512K
   ram (wxa!r) : ORIGIN = 0x90000000, LENGTH = 512K
 }
