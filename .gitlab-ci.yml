@@ -58,6 +58,7 @@ stages:
     # prepare nuclei_sdk and set environment variable NUCLEI_SDK_ROOT
     - git clone -b $SDK_BRANCH --depth 2 $NUCLEI_SDK_SSH nuclei_sdk
     - export NUCLEI_SDK_ROOT=$(readlink -f nuclei_sdk)
+    - echo "nuclei sdk $SDK_BRANCH branch, shortlog $(git -C ${NUCLEI_SDK_ROOT} log --oneline -1)"
     - pip3 install -r $NUCLEI_SDK_ROOT/tools/scripts/requirements.txt
   artifacts:
     when: always
@@ -105,6 +106,7 @@ run_hw:
     - sleep 30
     - git clone -b $SDK_BRANCH --depth 2 $NUCLEI_SDK_HTTPS nuclei_sdk
     - export NUCLEI_SDK_ROOT=$(readlink -f nuclei_sdk)
+    - echo "nuclei sdk $SDK_BRANCH branch, shortlog $(git -C ${NUCLEI_SDK_ROOT} log --oneline -1)"
     - echo "Show fpga and cycle model version used in this job!"
     - show_cycm_ver
     - TMOUT=$TMOUT CONFIG=$CONFIG LOGDIR=$LOGDIR ./configs/run_onfpga.sh
