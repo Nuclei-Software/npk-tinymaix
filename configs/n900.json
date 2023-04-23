@@ -13,11 +13,13 @@
     },
     "build_configs": {
         "rv32imafdcv_ilm" : {"CORE": "n900fd", "ARCH_EXT": "v", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
+        "rv32imafdcp_ilm" : {"CORE": "n900fd", "ARCH_EXT": "p", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
         "rv32imafdc_ilm" : {"CORE": "n900fd", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"}
     },
     "expecteds" : {
         "examples/mbnet" : {
             "rv32imafdcv_ilm" : {"build": false},
+            "rv32imafdcp_ilm" : {"build": false},
             "rv32imafdc_ilm" : {"build": false}
         }
     }

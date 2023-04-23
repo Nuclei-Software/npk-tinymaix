@@ -13,13 +13,16 @@
     },
     "build_configs": {
         "rv64imafdcv_ddr" : {"CORE": "nx900fd", "ARCH_EXT": "v", "DOWNLOAD": "ddr", "RUNMODE": "clm"},
+        "rv64imafdcp_ddr" : {"CORE": "nx900fd", "ARCH_EXT": "p", "DOWNLOAD": "ddr", "RUNMODE": "clm"},
         "rv64imafdc_ddr" : {"CORE": "nx900fd", "ARCH_EXT": "", "DOWNLOAD": "ddr", "RUNMODE": "clm"},
         "rv64imafdcv_ilm" : {"CORE": "nx900fd", "ARCH_EXT": "v", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
+        "rv64imafdcp_ilm" : {"CORE": "nx900fd", "ARCH_EXT": "p", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
         "rv64imafdc_ilm" : {"CORE": "nx900fd", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"}
     },
     "expecteds" : {
         "examples/mbnet" : {
             "rv64imafdcv_ilm" : {"build": false},
+            "rv64imafdcp_ilm" : {"build": false},
             "rv64imafdc_ilm" : {"build": false}
         }
     }
