@@ -3,10 +3,16 @@
 LOGDIR=${LOGDIR:-logs/tinymaix}
 CONFIG=${CONFIG:-n300}
 DRYRUN=${DRYRUN:-0}
+TMOUT=${TMOUT:-0}
 
 RUNYAML=req_runners.yaml
 
-[ -f ${RUNYAML} ] && rm -f ${RUNYAML}
+# check if exist RUNYAML, release it first
+if [ -f ${RUNYAML} ] ; then
+    runboard --release ${RUNYAML}
+    rm -f ${RUNYAML}
+fi
+
 if [ "x$CONFIG" == "x" ] ; then
     echo "No config $CONFIG specified, exit"
     exit 1
@@ -23,7 +29,18 @@ if [[ "$CONFIG" == *"900"* ]] ; then
     reqboards="vcu118,${reqboards}"
 fi
 
-runboard --request ${reqboards}
+if [ "x${NUCLEI_SDK_ROOT}" == "x" ] ; then
+    NUCLEI_SDK_ROOT=$(readlink -f ../nuclei-sdk)
+fi
+
+NSDK_RUNNER_CLI=${NUCLEI_SDK_ROOT}/tools/scripts/nsdk_cli/nsdk_runner.py
+
+if [ ! -f ${NSDK_RUNNER_CLI} ] ; then
+    echo "ERROR: Can't find ${NSDK_RUNNER_CLI}, please check whether your NUCLEI_SDK_ROOT environment variable is set correctly!"
+    exit 1
+fi
+
+runboard --request "${reqboards}#${TMOUT}"
 
 if [ -f ${RUNYAML} ] ; then
     echo "Requested required boards ${reqboards}"
@@ -32,9 +49,10 @@ else
     exit 1
 fi
 
-runcmd="python3 $NUCLEI_SDK_ROOT/tools/scripts/nsdk_cli/nsdk_runner.py --appyaml configs/tinymaix.yaml --runyaml ${RUNYAML} --logdir ${LOGDIR} --runon fpga --config ${CONFIG}"
+runcmd="python3 ${NSDK_RUNNER_CLI} --appyaml configs/tinymaix.yaml --runyaml ${RUNYAML} --logdir ${LOGDIR} --runon fpga --config ${CONFIG}"
 
 echo $runcmd
+ret=0
 if [ "x$DRYRUN" == "x0" ] ; then
     if [ "x${NUCLEI_SDK_ROOT}" == "x" ] ; then
         echo "NUCLEI_SDK_ROOT is not set in environment variables"
@@ -45,6 +63,15 @@ if [ "x$DRYRUN" == "x0" ] ; then
         rm -rf ${LOGDIR}
     fi
     eval $runcmd
+    ret=$?
+fi
+
+retmsg="PASS"
+if [ "x$ret" != "x0" ] ; then
+    retmsg="FAIL"
 fi
 
 runboard --release ${RUNYAML}
+
+echo "INFO: Run on fpga for $CONFIG : $retmsg, check log directory in ${LOGDIR}"
+exit $ret
