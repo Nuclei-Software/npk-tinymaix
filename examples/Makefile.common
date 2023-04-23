@@ -11,7 +11,7 @@ STDCLIB ?= newlib_small
 # when ARCH_EXT=pv P-ext and V-ext will be enabled
 # and P-ext/V-ext optimized library will be selected
 # see NMSIS/build.mk
-SOC ?= evalsoc
+SOC ?= demosoc
 CORE ?= n300fd
 DOWNLOAD ?= ilm
 ARCH_EXT ?=
