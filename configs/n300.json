@@ -12,6 +12,7 @@
         }
     },
     "build_configs": {
+        "rv32imafdcp" : {"CORE": "n300fd", "ARCH_EXT": "p", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
         "rv32imafdc" : {"CORE": "n300fd", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
         "rv32imac" : {"CORE": "n300", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"},
         "rv32imafc" : {"CORE": "n300f", "ARCH_EXT": "", "DOWNLOAD": "ilm", "LINKER_SCRIPT": "../gcc_512K.ld"}
