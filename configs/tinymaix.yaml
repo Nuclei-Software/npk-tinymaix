@@ -55,6 +55,7 @@ configs:
         # bitstream path related to this yaml's loc or abs path
         bitstream: n200_software_best_config_ddr200t.bit
         ncycm: n200b
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: n200.json
@@ -63,6 +64,7 @@ configs:
         fpga: ddr200t
         bitstream: n300_software_best_config_ddr200t.bit
         ncycm: n300fdbp
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: n300.json
@@ -71,6 +73,7 @@ configs:
         fpga: ku060
         bitstream: n600_software_best_config_ku060.bit
         ncycm: n600fdbp
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: n600.json
@@ -79,6 +82,7 @@ configs:
         fpga: ku060
         bitstream: ux600_software_best_config_ku060.bit
         ncycm: ux600fdbp
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: ux600.json
@@ -87,6 +91,7 @@ configs:
         fpga: vcu118
         bitstream: n900_software_best_config_vcu118.bit
         ncycm: n900fdbp
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: n900.json
@@ -95,6 +100,7 @@ configs:
         fpga: vcu118
         bitstream: ux900_software_best_config_vcu118.bit
         ncycm: ux900fdbp
+        # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
         appcfg: tinymaix.json
         hwcfg: ux900.json
