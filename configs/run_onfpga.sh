@@ -73,5 +73,5 @@ fi
 
 runboard --release ${RUNYAML}
 
-echo "INFO: Run on fpga for $CONFIG : $retmsg, check log directory in ${LOGDIR}"
+echo "INFO: Run on fpga for $CONFIG : $retmsg, check log directory in $(readlink -f ${LOGDIR})"
 exit $ret
