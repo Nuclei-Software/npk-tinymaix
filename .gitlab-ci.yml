@@ -2,9 +2,6 @@ variables:
   NUCLEI_SDK_SSH: git@gito:software/library/nuclei-sdk.git
   NUCLEI_SDK_HTTPS: https://gito.corp.nucleisys.com/software/baremetal/nuclei-sdk.git
   SDK_BRANCH: develop
-  SOC: evalsoc
-  DOC_SERVER: doc
-  DOC_CENTER: /home/xl_ci/doc_center
   SHAREENVLOC: /home/share/devtools
   IMAGE: rego.corp.nucleisys.com/software/sdkbuild
   IMAGE_TAG: "2022.12"
