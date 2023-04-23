@@ -13,6 +13,9 @@
         }
     },
     "build_target": "clean all",
+    "build_config": {
+        "SOC": "demosoc"
+    },
     "checks": {
         "PASS": ["### Predict output"],
         "FAIL": ["MEPC"]
