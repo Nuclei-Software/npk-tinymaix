@@ -105,5 +105,7 @@ run_hw:
     - sleep 30
     - git clone -b $SDK_BRANCH --depth 2 $NUCLEI_SDK_HTTPS nuclei_sdk
     - export NUCLEI_SDK_ROOT=$(readlink -f nuclei_sdk)
+    - echo "Show fpga and cycle model version used in this job!"
+    - show_cycm_ver
     - TMOUT=$TMOUT CONFIG=$CONFIG LOGDIR=$LOGDIR ./configs/run_onfpga.sh
 
