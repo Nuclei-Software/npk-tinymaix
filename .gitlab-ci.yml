@@ -3,6 +3,7 @@ variables:
   NUCLEI_SDK_HTTPS: https://gito.corp.nucleisys.com/software/baremetal/nuclei-sdk.git
   SDK_BRANCH: develop
   SHAREENVLOC: /home/share/devtools
+  ENVSH: /home/share/devtools/env.sh
   IMAGE: rego.corp.nucleisys.com/software/sdkbuild
   IMAGE_TAG: "2022.12"
 
@@ -111,3 +112,47 @@ run_hw:
     - show_cycm_ver
     - TMOUT=$TMOUT CONFIG=$CONFIG LOGDIR=$LOGDIR ./configs/run_onfpga.sh
 
+show_proc:
+  stage: build
+  only:
+    refs:
+      - nuclei-main
+      - merge_requests
+  when: manual
+  parallel:
+      matrix:
+        - OP: ["pipeshow"]
+  before_script:
+    - source $ENVSH
+    - activate_swdev
+  script:
+    - freeboard.sh $OP
+  tags:
+    - env::shell
+    - host::whss3
+    - net::outside
+
+clean_proc:
+  stage: build
+  only:
+    refs:
+      - nuclei-main
+      - merge_requests
+  when: manual
+  allow_failure: true
+  parallel:
+      matrix:
+        - OP: ["pipefree"]
+  before_script:
+    - source $ENVSH
+    - activate_swdev
+    # wait 60s to avoid mis-operation to allow cancel time
+    - echo "Start to cleanup free operation $OP in 60s!"
+    - sleep 60
+    - ([ "x$OP" == "xfree" ]) && echo "CAUTION :Sleep extra 120s for $OP operation" && sleep 120
+  script:
+    - freeboard.sh $OP
+  tags:
+    - env::shell
+    - host::whss3
+    - net::outside

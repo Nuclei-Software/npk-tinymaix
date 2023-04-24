@@ -51,6 +51,10 @@ fi
 
 runcmd="python3 ${NSDK_RUNNER_CLI} --appyaml configs/tinymaix.yaml --runyaml ${RUNYAML} --logdir ${LOGDIR} --runon fpga --config ${CONFIG}"
 
+if [ "x${CI_PIPELINE_ID}" != "x" ] ; then
+    runcmd="$runcmd --uniqueid pipeline${CI_PIPELINE_ID}"
+fi
+
 echo $runcmd
 ret=0
 if [ "x$DRYRUN" == "x0" ] ; then
