@@ -47,4 +47,4 @@ if [ "x$ret" != "x0" ] ; then
     retmsg="FAIL"
 fi
 echo "INFO: Run on qemu $retmsg, check logs via httpserver_cli -d $LOGDIR"
-exit $?
+exit $ret
