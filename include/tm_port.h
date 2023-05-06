@@ -21,6 +21,7 @@ limitations under the License.
 #define TM_ARCH_RV64V       (5) //T-head C906,C910, etc.
 #define TM_ARCH_CSKYV2      (6) //cskyv2 with dsp core
 #define TM_ARCH_X86_SSE2    (7) //x86 sse2
+#define TM_ARCH_RV64P       (8) //nuclei nx900 with dsp core, etc.
 
 #define TM_OPT0             (0) //default, least code and buf
 #define TM_OPT1             (1) //opt for speed, need more code and buf
@@ -29,7 +30,10 @@ limitations under the License.
 /******************************* PORT CONFIG  ************************************/
 #if defined(__riscv_vector)
 #define TM_ARCH         TM_ARCH_RV64V
-#elif defined(TM_ARCH)
+#elif defined(__riscv_dsp) && (__riscv_xlen == 32)
+#define TM_ARCH         TM_ARCH_RV32P
+#elif defined(__riscv_dsp) && (__riscv_xlen == 64)
+#define TM_ARCH         TM_ARCH_RV64P
 #else
 #define TM_ARCH         TM_ARCH_CPU
 #endif

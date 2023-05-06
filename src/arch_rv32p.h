@@ -20,7 +20,8 @@ limitations under the License.
 //https://occ.t-head.cn/vendor/cpu/index?id=3900588052540035072&key=download#sticky   //pdf
 //https://github.com/T-head-Semi
 //We use T-head Xuantie E907 as example, it have its own instructions!!!
-#define ENABLE_THEAD_EXT 1
+//#define ENABLE_THEAD_EXT 1
+#define ENABLE_NUCLEI_EXT 1
 
 #if TM_MDL_TYPE == TM_MDL_INT8
 #if ENABLE_THEAD_EXT
@@ -144,6 +145,132 @@ TM_INLINE void tm_dot_prod_3x3x1(mtype_t* sptr, mtype_t* kptr, sumtype_t* result
         sptr[6]*kptr[6] + sptr[7]*kptr[7] + sptr[8]*kptr[8] ;
     return;
 }
+
+#elif ENABLE_NUCLEI_EXT
+TM_INLINE void tm_dot_prod(mtype_t* sptr, mtype_t* kptr,uint32_t size, sumtype_t* result)
+{
+    int32_t sum;
+    asm  volatile(
+    "mv     t6,%[size]          \n"
+    "mv     t0,%[sptr]          \n"
+    "mv     t1,%[kptr]          \n"
+    "andi   a7,t6,7            \n"
+    "srli   t6,t6,0x3           \n"
+    "li %[sum],0                \n"
+    "beqz   t6,LOOPEND%=\n"
+    "LOOP%=:\n"
+    "lw   t2,0(t0)            \n"
+    "lw   t3,0(t1)             \n"
+    "lw   t4,4(t0)             \n"
+    "lw   t5,4(t1)             \n"
+    "smaqa  %[sum],t2,t3        \n"
+    "addi  t0,t0,8              \n"
+    "addi  t1,t1,8              \n"
+    "smaqa  %[sum],t4,t5        \n"
+    "addi   t6,t6,-1            \n"
+    "bnez   t6,LOOP%=           \n"
+    "LOOPEND%=:"
+    "beqz   a7,OUT%=            \n"
+    "REST%=:\n"
+    "lb    t2,0(t0)             \n"
+    "addi  t0,t0,1              \n"
+    "lb    t3,0(t1)             \n"
+    "addi  t1,t1,1              \n"
+    "addi   a7,a7,-1            \n"
+    "smaqa  %[sum],t2,t3        \n"
+    "bnez   a7,REST%=   \n"
+    "OUT%=:\n"
+    :[sum]"=r"(sum)
+    :[sptr]"r"(sptr),[kptr]"r"(kptr),[size]"r"(size)
+    :"t0", "t1", "t2", "t3", "t4", "t5", "t6", "a7"
+    );
+
+    *result = sum;
+    return;
+}
+
+TM_INLINE  void tm_dot_prod_pack2(mtype_t* sptr, mtype_t* kptr, uint32_t size, sumtype_t* result)
+{
+    mtype_t* kptra = kptr;
+    mtype_t* kptrb = kptr+size;
+    int32_t sum0, sum1;
+    asm  volatile(
+    "mv     t6,%[size]          \n"
+    "mv     t0,%[sptr]          \n"
+    "mv     t1,%[kptra]         \n"
+    "mv     a4,%[kptrb]         \n"
+    "andi   a7,t6,7            \n"
+    "srli   t6,t6,0x3           \n"
+    "li %[sum0],0               \n"
+    "li %[sum1],0               \n"
+    "beqz   t6,LOOPEND%=\n"
+    "LOOP%=:\n"
+    "lw    t2, 0(t0)            \n"
+    "lw    t3, 0(t1)            \n"
+    "lw    a5, 0(a4)            \n"
+    "smaqa  %[sum0],t2,t3       \n"
+    "smaqa  %[sum1],t2,a5       \n"
+    "lw    t4, 4(t0)            \n"
+    "addi  t0, t0, 8            \n"
+    "lw    t5, 4(t1)            \n"
+    "addi  t1, t1, 8            \n"
+    "lw    a6, 4(a4)            \n"
+    "addi  a4, a4, 8            \n"
+    "addi   t6,t6,-1        \n"
+    "smaqa  %[sum0],t4,t5       \n"
+    "smaqa  %[sum1],t4,a6       \n"
+    "bnez   t6,LOOP%=       \n"
+    "LOOPEND%=:"
+    "beqz   a7,OUT%=    \n"
+    "REST%=:\n"
+    "lb    t2, 0(t0)            \n"
+    "addi  t0, t0, 1            \n"
+    "lb    t3, 0(t1)            \n"
+    "addi  t1, t1, 1            \n"
+    "lb    a5, 0(a4)            \n"
+    "addi  a4, a4, 1            \n"
+    "addi   a7,a7,-1        \n"
+    "maddr32  %[sum0],t2,t3       \n"
+    "maddr32  %[sum1],t2,a5       \n"
+    "bnez   a7,REST%=   \n"
+    "OUT%=:\n"
+    :[sum0]"=r"(sum0),[sum1]"=r"(sum1)
+    :[sptr]"r"(sptr),[kptra]"r"(kptra),[kptrb]"r"(kptrb),[size]"r"(size)
+    :"t0", "t1", "t2", "t3", "t4", "t5", "t6", "a7", "a4", "a5", "a6"
+    );
+    result[0] = sum0;
+    result[1] = sum1;
+    return;
+}
+
+TM_INLINE void tm_dot_prod_3x3x1(mtype_t* sptr, mtype_t* kptr, sumtype_t* result)
+{
+    int32_t sum=0;
+    asm  volatile(
+    "mv     t0,%[sptr]          \n"
+    "mv     t1,%[kptr]          \n"
+    "li %[sum],0                \n"
+    "lw   t2,0(t0)            \n"
+    "lw   t3,0(t1)             \n"
+    "lw   t4,4(t0)             \n"
+    "lw   t5,4(t1)             \n"
+    "smaqa  %[sum],t2,t3        \n"
+    "smaqa  %[sum],t4,t5        \n"
+    "lb    t2,8(t0)             \n"
+    "lb    t3,8(t1)             \n"
+    "smaqa  %[sum],t2,t3        \n"
+    :[sum]"=r"(sum)
+    :[sptr]"r"(sptr),[kptr]"r"(kptr)
+    :"t0", "t1", "t2", "t3", "t4", "t5"
+    );
+
+    *result = sum;
+    return;
+}
+
+#else
+#error "standard RV32P is not implement yet!"
+#endif
  
 TM_INLINE void tm_dot_prod_gap(mtype_t* sptr, mtype_t* kptr, uint32_t* k_oft, uint32_t size, sumtype_t* result)
 {
@@ -175,10 +302,6 @@ TM_INLINE void tm_dot_prod_gap_3x3x1(mtype_t* sptr, mtype_t* kptr, uint32_t* k_o
         sptr[k_oft[6]]*kptr[6] + sptr[k_oft[7]]*kptr[7] + sptr[k_oft[8]]*kptr[8] ;
     return;                  
 }
-
-#else
-#error "standard RV32P is not implement yet!"
-#endif
 
 #else
 #error "RV32P opt for FP32 in not implement yet!"
