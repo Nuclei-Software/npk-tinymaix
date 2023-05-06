@@ -26,6 +26,8 @@ limitations under the License.
     #include "arch_arm_mvei.h"
 #elif TM_ARCH==TM_ARCH_RV32P
     #include "arch_rv32p.h"
+#elif TM_ARCH==TM_ARCH_RV64P
+    #include "arch_rv64p.h"
 #elif TM_ARCH==TM_ARCH_RV64V
     #include "arch_rv64v.h"
 #elif TM_ARCH==TM_ARCH_CSKYV2

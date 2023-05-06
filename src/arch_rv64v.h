@@ -44,11 +44,13 @@ limitations under the License.
 
 
 #define RVV_VLEN 128  //TODO: read csrr_vlenb
+#define ENABLE_NUCLEI_EXT 1
 
 /********************************** TM_MDL_FP32 ***********************************************/
 #if TM_MDL_TYPE==TM_MDL_FP32
 #define PACK_N (RVV_VLEN/32)    //fp32
 uint32_t tdot = 0;
+#ifndef ENABLE_NUCLEI_EXT
 TM_INLINE  void tm_dot_prod(mtype_t* sptr, mtype_t* kptr,uint32_t size, sumtype_t* result)
 { 
     float sumbuf[PACK_N];
@@ -143,6 +145,76 @@ TM_INLINE  void tm_dot_prod_pack2(mtype_t* sptr, mtype_t* kptr, uint32_t size, s
     //result[3] = sum3;
     return;
 }
+#else
+
+#define PACK_N2 (RVV_VLEN/32*8)    //fp32
+#define PACK_N3 (RVV_VLEN/32*4)    //fp32
+TM_INLINE  void tm_dot_prod(mtype_t* sptr, mtype_t* kptr,uint32_t size, sumtype_t* result)
+{
+    float sum = 0.f;
+    int cnt=size/PACK_N2;
+    if(cnt>0){
+        size_t vl = vsetvl_e32m8(PACK_N2);
+        vfloat32m8_t sumv = vfmv_v_f_f32m8(0.f, vl);   //set sum=0
+        vfloat32m1_t v_zero = vfmv_v_f_f32m1(0.f, vl);
+        for(int i=0; i<cnt; i++){
+            vfloat32m8_t s = vle32_v_f32m8(sptr, vl);
+            sptr += PACK_N2;
+            vfloat32m8_t k = vle32_v_f32m8(kptr, vl);
+            kptr += PACK_N2;
+            sumv = vfmacc_vv_f32m8(sumv, s, k, vl);
+        }
+        v_zero = vfredosum_vs_f32m8_f32m1(v_zero, sumv, v_zero, vl);
+        sum = vfmv_f_s_f32m1_f32(v_zero);
+    }
+    for(int i=0; i<size%PACK_N2; i++){
+        sum += *sptr * *kptr;
+        sptr++;kptr++;
+    }
+
+    *result = sum;
+    return;
+}
+
+TM_INLINE  void tm_dot_prod_pack2(mtype_t* sptr, mtype_t* kptr, uint32_t size, sumtype_t* result)
+{
+    mtype_t* kptr0 = kptr;
+    mtype_t* kptr1 = kptr+size;
+    float sum0 = 0;
+    float sum1 = 0;
+    int cnt=size/PACK_N3;
+    if(cnt>0){
+        size_t vl = vsetvl_e32m4(PACK_N3);
+        vfloat32m4_t sumv0 = vfmv_v_f_f32m4(0.f, vl);   //set sum=0
+        vfloat32m4_t sumv1 = vfmv_v_f_f32m4(0.f, vl);   //set sum=0
+        vfloat32m1_t v_zero0 = vfmv_v_f_f32m1(0.0f, vl);
+        vfloat32m1_t v_zero1 = vfmv_v_f_f32m1(0.0f, vl);
+        for(int i=0; i<cnt; i++){
+            vfloat32m4_t s  = vle32_v_f32m4(sptr, vl);
+            sptr += PACK_N3;
+            vfloat32m4_t k0 = vle32_v_f32m4(kptr0, vl);
+            kptr0 += PACK_N3;
+            vfloat32m4_t k1 = vle32_v_f32m4(kptr1, vl);
+            kptr1 += PACK_N3;
+            sumv0 = vfmacc_vv_f32m4(sumv0, s, k0, vl);
+            sumv1 = vfmacc_vv_f32m4(sumv1, s, k1, vl);
+        }
+        v_zero0 = vfredosum_vs_f32m4_f32m1(v_zero0, sumv0, v_zero0, vl);
+        v_zero1 = vfredosum_vs_f32m4_f32m1(v_zero1, sumv1, v_zero1, vl);
+        sum0 = vfmv_f_s_f32m1_f32(v_zero0);
+        sum1 = vfmv_f_s_f32m1_f32(v_zero1);
+    }
+    for(int i=0; i<size%PACK_N3; i++){
+        sum0 += *sptr * *kptr0;
+        sum1 += *sptr * *kptr1;
+        sptr++;kptr0++;kptr1++;
+    }
+
+    result[0] = sum0;
+    result[1] = sum1;
+    return;
+}
+#endif /* #if ENABLE_NUCLEI_EXT */
 
 TM_INLINE void tm_dot_prod_gap_3x3x1(mtype_t* sptr, mtype_t* kptr, uint32_t* k_oft, sumtype_t* result)
 {
@@ -280,6 +352,7 @@ TM_INLINE void tm_dot_prod_3x3x1(mtype_t* sptr, mtype_t* kptr, sumtype_t* result
 //  vint32m4_t vwmacc_vv_i32m4 (vint32m4_t vd, vint16m2_t vs1, vint16m2_t vs2, size_t vl);
 uint32_t tdot = 0;
 TM_STATIC uint32_t size0=0;
+#ifndef ENABLE_NUCLEI_EXT
 TM_INLINE  void tm_dot_prod(mtype_t* sptr, mtype_t* kptr,uint32_t size, sumtype_t* result)
 { 
     int32_t sumbuf[PACK_N];
@@ -367,7 +440,113 @@ TM_INLINE void tm_dot_prod_3x3x1(mtype_t* sptr, mtype_t* kptr, sumtype_t* result
         sptr[6]*kptr[6] + sptr[7]*kptr[7] + sptr[8]*kptr[8] ;
     return;
 }
+#else
 
+TM_INLINE  void tm_dot_prod(mtype_t* sptr, mtype_t* kptr,uint32_t size, sumtype_t* result)
+{
+    int32_t sum = 0;
+    size_t vl;
+    int32_t blkCnt = size;
+    if (size < 32) {
+        vl = 1;
+        vint8m1_t s8, k8;
+        vint32m1_t v_sum = vmv_v_x_i32m1(0, vl);
+        for (; (vl = vsetvl_e8m1(blkCnt)) > 0; blkCnt -= vl) {
+            s8  = vle8_v_i8m1(sptr, vl);
+            sptr += vl;
+            k8  = vle8_v_i8m1(kptr, vl);
+            kptr += vl;
+            v_sum = vwredsum_vs_i16m2_i32m1(v_sum, vwmul_vv_i16m2(s8, k8, vl), v_sum, vl);
+        }
+        sum = vmv_x_s_i32m1_i32(v_sum);
+    } else {
+        vl = 1;
+        vint8m4_t s8, k8;
+        vint32m1_t v_sum = vmv_v_x_i32m1(0, vl);
+        for (; (vl = vsetvl_e8m4(blkCnt)) > 0; blkCnt -= vl) {
+            s8  = vle8_v_i8m4(sptr, vl);
+            sptr += vl;
+            k8  = vle8_v_i8m4(kptr, vl);
+            kptr += vl;
+            v_sum = vwredsum_vs_i16m8_i32m1(v_sum, vwmul_vv_i16m8(s8, k8, vl), v_sum, vl);
+        }
+        sum = vmv_x_s_i32m1_i32(v_sum);
+    }
+
+    *result = sum;
+    return;
+}
+
+TM_INLINE  void tm_dot_prod_pack2(mtype_t* sptr, mtype_t* kptr, uint32_t size, sumtype_t* result)
+{
+    int32_t sum0 = 0;
+    int32_t sum1 = 0;
+    mtype_t* kptr0 = kptr;
+    mtype_t* kptr1 = kptr+size;
+    size_t vl;
+    int32_t blkCnt = size;
+    if (size < 32) {
+        vl = 1;
+        vint8m1_t  s8, k80, k81;
+        vint32m1_t v_sum0 = vmv_v_x_i32m1(0, vl);
+        vint32m1_t v_sum1 = vmv_v_x_i32m1(0, vl);
+        for (; (vl = vsetvl_e8m1(blkCnt)) > 0; blkCnt -= vl) {
+            s8  = vle8_v_i8m1(sptr, vl);
+            sptr += vl;
+            k80  = vle8_v_i8m1(kptr0, vl);
+            kptr0 += vl;
+            k81  = vle8_v_i8m1(kptr1, vl);
+            kptr1 += vl;
+            v_sum0 = vwredsum_vs_i16m2_i32m1(v_sum0, vwmul_vv_i16m2(s8, k80, vl), v_sum0, vl);
+            v_sum1 = vwredsum_vs_i16m2_i32m1(v_sum1, vwmul_vv_i16m2(s8, k81, vl), v_sum1, vl);
+        }
+        sum0 = vmv_x_s_i32m1_i32(v_sum0);
+        sum1 = vmv_x_s_i32m1_i32(v_sum1);
+    } else {
+        vl = 1;
+        vint8m4_t  s8, k80, k81;
+        vint32m1_t v_sum0 = vmv_v_x_i32m1(0, vl);
+        vint32m1_t v_sum1 = vmv_v_x_i32m1(0, vl);
+        for (; (vl = vsetvl_e8m4(blkCnt)) > 0; blkCnt -= vl) {
+            s8  = vle8_v_i8m4(sptr, vl);
+            sptr += vl;
+            k80  = vle8_v_i8m4(kptr0, vl);
+            kptr0 += vl;
+            k81  = vle8_v_i8m4(kptr1, vl);
+            kptr1 += vl;
+            v_sum0 = vwredsum_vs_i16m8_i32m1(v_sum0, vwmul_vv_i16m8(s8, k80, vl), v_sum0, vl);
+            v_sum1 = vwredsum_vs_i16m8_i32m1(v_sum1, vwmul_vv_i16m8(s8, k81, vl), v_sum1, vl);
+        }
+        sum0 = vmv_x_s_i32m1_i32(v_sum0);
+        sum1 = vmv_x_s_i32m1_i32(v_sum1);
+    }
+
+    result[0] = sum0;
+    result[1] = sum1;
+    return;
+}
+
+TM_INLINE void tm_dot_prod_gap_3x3x1(mtype_t* sptr, mtype_t* kptr, uint32_t* k_oft, sumtype_t* result)
+{
+    *result = sptr[k_oft[0]]*kptr[0] + sptr[k_oft[1]]*kptr[1] + sptr[k_oft[2]]*kptr[2] + \
+        sptr[k_oft[3]]*kptr[3] + sptr[k_oft[4]]*kptr[4] + sptr[k_oft[5]]*kptr[5] + \
+        sptr[k_oft[6]]*kptr[6] + sptr[k_oft[7]]*kptr[7] + sptr[k_oft[8]]*kptr[8] ;
+    return;
+}
+
+TM_INLINE void tm_dot_prod_3x3x1(mtype_t* sptr, mtype_t* kptr, sumtype_t* result)
+{
+    size_t vl = 9;
+    vint8m1_t a0m1, b0m1;
+    vint32m1_t v_zero0 = vmv_v_x_i32m1(0, vl);
+    a0m1  = vle8_v_i8m1(sptr, vl);
+    b0m1  = vle8_v_i8m1(kptr, vl);
+    v_zero0 = vwredsum_vs_i16m2_i32m1(v_zero0, vwmul_vv_i16m2(a0m1, b0m1, vl), v_zero0, vl);
+
+    *result = vmv_x_s_i32m1_i32(v_zero0);
+    return;
+}
+#endif /* #if ENABLE_NUCLEI_EXT */
 
 #else
 #error "ERR MDL TYPE"
