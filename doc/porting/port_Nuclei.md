@@ -22,27 +22,24 @@ TinyMaix port to Nuclei RISC-V Processor can be found in https://github.com/risc
 > - ILM/DLM need a 512K version bitstream.
 > - Other Nuclei processor based chip can be easily supported.
 
-## Board
+# How to Use Nuclei TinyMaix Component
+
+## 1. Use TinyMaix  in Terminal
+
+### Board
 
 - [Nuclei DDR200T for 200/300 CPU Series](https://nucleisys.com/developboard.php#ddr200t)
 - [Xilinx VCU118 for 900 Series](https://www.xilinx.com/products/boards-and-kits/vcu118.html)
 
 > Support can be easily ported to other Nuclei RISC-V processor based CPUs.
 
-## Development Environment
+### Development Environment
 
 - [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk)
-- [Nuclei Studio](https://www.rvmcu.com/nucleistudio.html)
 
-## Step/Project
+### Operation Steps
 
-1. Download Nuclei Studio
-
-~~~shell
-# Download Nuclei Studio from https://nucleisys.com/download.php#tools
-~~~
-
-2. Clone Nuclei SDK Project
+- clone SDK
 
 ~~~shell
 git clone https://github.com/Nuclei-Software/nuclei-sdk
@@ -51,15 +48,15 @@ export NUCLEI_SDK_ROOT=$(readlink -f nuclei-sdk)
 # follow steps in https://doc.nucleisys.com/nuclei_sdk/quickstart.html#use-prebuilt-tools-in-nuclei-studio setup toolchain environment
 ~~~
 
-3. Clone Tinymaix ported for Nuclei
+- Clone Tinymaix ported for Nuclei
 
 ~~~shell
 git clone https://github.com/riscv-mcu/TinyMaix
 ~~~
 
-4. Build and run tinymaix examples
+- Build and run tinymaix examples
 
-> Currently supported cases are cifar10/kws/mnist/mbnet
+> Currently supported cases are cifar10/kws/mnist/mbnet/vww
 
 Take cifar10 as example using Nuclei DDR200T board, N300 RISC-V CPU.
 
@@ -67,25 +64,76 @@ Take cifar10 as example using Nuclei DDR200T board, N300 RISC-V CPU.
 > use it just like sdk application, see guide here
 > https://doc.nucleisys.com/nuclei_sdk/quickstart.html#build-run-and-debug-sample-application
 
-~~~shell
-cd TinyMaix
-# checkout branch for nuclei processor
-git checkout nuclei-main
-cd examples/cifar10/
+​    **a.** **Run on qemu (software simulation):**
+
+```shell
+cd TinyMaix/examples/cifar10/
 # choose n300fd(rv32imafdc) as example
 # clean and build project
-make CORE=n300fd clean all
+make CORE=n300fd DOWNLOAD=ilm clean all
+# test it using qemu
+make CORE=n300fd DOWNLOAD=ilm run_qemu
+```
+
+​    **b.** **Run on FPGA Board:**
+
+~~~shell
+cd TinyMaix/examples/cifar10/
+# choose n300fd(rv32imafdc) as example
+# clean and build project
+make CORE=n300fd DOWNLOAD=ilm clean all
 # connect fpga board, and program bitstream using xilinx vivado tools
 # connect using hbird debugger to fpga board
 # download program to fpga board, and monitor on com port
-make CORE=n300fd upload
-# you can also test it using qemu
-make CORE=n300fd run_qemu
+make CORE=n300fd DOWNLOAD=ilm upload
 ~~~
 
-5. Future using tinymaix directly using Nuclei Studio NPK feature is WIP.
+## 2. Use TinyMaix  in Nuclei Studio IDE
 
-About NPK, check https://github.com/Nuclei-Software/nuclei-sdk/wiki/Nuclei-Studio-NPK-Introduction
+### Development Environment
+
+- [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk)
+- [Nuclei Studio](https://www.rvmcu.com/nucleistudio.html)
+
+### Operation Steps
+
+- Get Nuclei subsystem SDK
+
+- Download Nuclei Studio IDE
+
+- Import the subsystem SDK zip package of any version from the Nuclei Package Management
+
+  > **Note:**  Another way is supported that directly download SDK from Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
+
+  ![import_sdk](images/import_sdk.png)
+
+- Import the zip package of **TinyMaix** in the same way after the steps above are ready
+
+  ![import_zip_pakage](images/import_zip_pakage.png)
+
+- Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://www.nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide_202212.pdf ) if necessary)
+
+  a. Choose the SoC, board and the SDK.
+
+  ![creat_c_project](images/creat_c_project.png)
+
+   b. Find the example you want and fill the configuration items
+
+  > **Note:** Users can filter by tinymaix (or ai or tinyml) to find the example  more quickly.
+
+  ![select_exp_and_config](images/select_exp_and_config.png)
+
+- Build and run
+
+   a. Clip the "Build" button to build the project
+
+  > **Note:** Size for ilm and ram should be set big enough as nessessary, or the compilation will fail.
+
+  ![build](images/build.png)
+
+   b. Select qemu debugging and clip the "Run" button
+
+  ![run](images/run.png)
 
 ## Result
 
@@ -93,11 +141,13 @@ About NPK, check https://github.com/Nuclei-Software/nuclei-sdk/wiki/Nuclei-Studi
 
 | config | mnist | cifar | vww  | kws |
 | ------ | ----- | ----- | ------ | -------- |
-| RV32IMAFDC | 11.102 | 795.068 | 2946.493 | 152.044  |
+| RV32IMAFDC | 11.098 | 794.764 | 2948.738 | 151.968 |
 
-> Other CPU series can be easily tested using Nuclei SDK
+> **Note:** Other CPU series can be easily tested using Nuclei SDK
 > using different fpga bitstream.
 
 ## Author
 
 [Huaqi Fang](https://github.com/fanghuaqi)
+
+[Jiuling Sun](https://github.com/sunjiuling)
