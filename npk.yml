@@ -11,19 +11,26 @@ version: 1.0.0
 license: Apache-2.0
 homepage: https://github.com/riscv-mcu/TinyMaix
 
+dependencies:
+  - name: sdk-nuclei_sdk
+
 packinfo:
   name: Tiny inference library for microcontrollers(TinyML)
   doc:
     website: https://github.com/riscv-mcu/TinyMaix
     usermanual: https://github.com/riscv-mcu/TinyMaix/blob/nuclei-main/doc/porting/port_Nuclei.md
 
+setconfig:
+  - config: stdclib
+    value: newlib_small
+
 ## Source Code Management
 codemanage:
   installdir: tinymaix
   copyfiles:
-    - path: ["src/", "include/"]
+    - path: ["src/", "include/", "tools/tmdl/"]
   incdirs:
-    - path: ["src/", "include/"]
+    - path: ["./", "src/", "include/"]
   libdirs:
   ldlibs:
     - libs: [m]

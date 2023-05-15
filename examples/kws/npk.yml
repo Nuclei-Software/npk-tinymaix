@@ -15,6 +15,8 @@ homepage: https://github.com/riscv-mcu/TinyMaix/tree/nuclei-main/examples/kws
 
 ## Package Dependency
 dependencies:
+  - name: sdk-nuclei_sdk
+  - name: mwp-libtinymaix
 
 ## Package Configurations
 configuration:

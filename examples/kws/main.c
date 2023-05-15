@@ -25,11 +25,11 @@ limitations under the License.
 
 static const char* kws_str[KWS_CNT] = {"Hi xiaowen", "Nihao wenwen", "Background"};
 
-//#include "audio/0a.c"  //hi xiaowen, male
-#include "audio/fbank0a.c"  //hi xiaowen, female
-//#include "audio/fbank1a.c"  //nihao wenwen, male
-//#include "audio/fbank2a.c"  //noise
-//#include "audio/fbank2b.c"  //noise
+//#include "audio/0a.array"  //hi xiaowen, male
+#include "audio/fbank0a.array"  //hi xiaowen, female
+//#include "audio/fbank1a.array"  //nihao wenwen, male
+//#include "audio/fbank2a.array"  //noise
+//#include "audio/fbank2b.array"  //noise
 
 static tm_err_t layer_cb(tm_mdl_t* mdl, tml_head_t* lh)
 {   //dump middle result
