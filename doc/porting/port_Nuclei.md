@@ -92,18 +92,21 @@ make CORE=n300fd DOWNLOAD=ilm upload
 
 ### Development Environment
 
-- [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk)
-- [Nuclei Studio](https://www.rvmcu.com/nucleistudio.html)
+- Nuclei SDK
+- Nuclei Studio
+- TinyMaix
 
 ### Operation Steps
 
-- Get Nuclei subsystem SDK
+- Download Nuclei Studio IDE from [Nuclei Studio](https://www.rvmcu.com/nucleistudio.html)
 
-- Download Nuclei Studio IDE
+- Download TinyMaix zip package from [TinyMaix](https://github.com/riscv-mcu/TinyMaix/tree/nuclei-main/)
 
-- Import the subsystem SDK zip package of any version from the Nuclei Package Management
+- Open the Nuclei Studio IDE
 
-  > **Note:**  Another way is supported that directly download SDK from Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
+- Downlaod a Nuclei SDK package of any version from the Nuclei Package Management
+
+  > **Note:**  Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) through Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
 
   ![import_sdk](images/import_sdk.png)
 
@@ -121,7 +124,7 @@ make CORE=n300fd DOWNLOAD=ilm upload
 
   > **Note:** Users can filter by tinymaix (or ai or tinyml) to find the example  more quickly.
 
-  ![select_exp_and_config](images/select_exp_and_config.png)
+  ![select_example_and_config](images/select_example_and_config.png)
 
 - Build and run
 
