@@ -13,6 +13,7 @@ homepage: https://github.com/riscv-mcu/TinyMaix
 
 dependencies:
   - name: sdk-nuclei_sdk
+    version: 0.4.0
 
 packinfo:
   name: Tiny inference library for microcontrollers(TinyML)

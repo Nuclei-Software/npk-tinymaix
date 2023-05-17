@@ -104,7 +104,7 @@ make CORE=n300fd DOWNLOAD=ilm upload
 
 - Open the Nuclei Studio IDE
 
-- Downlaod a Nuclei SDK package of any version from the Nuclei Package Management
+- Downlaod a Nuclei SDK package of version no older than 0.4.0 from the Nuclei Package Management
 
   > **Note:**  Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) through Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
 
