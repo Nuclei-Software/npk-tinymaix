@@ -70,9 +70,9 @@ Take cifar10 as example using Nuclei DDR200T board, N300 RISC-V CPU.
 cd TinyMaix/examples/cifar10/
 # choose n300fd(rv32imafdc) as example
 # clean and build project
-make CORE=n300fd DOWNLOAD=ilm clean all
+make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm clean all
 # test it using qemu
-make CORE=n300fd DOWNLOAD=ilm run_qemu
+make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm run_qemu
 ```
 
 ​    **b.** **Run on FPGA Board:**
@@ -81,11 +81,11 @@ make CORE=n300fd DOWNLOAD=ilm run_qemu
 cd TinyMaix/examples/cifar10/
 # choose n300fd(rv32imafdc) as example
 # clean and build project
-make CORE=n300fd DOWNLOAD=ilm clean all
+make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm clean all
 # connect fpga board, and program bitstream using xilinx vivado tools
 # connect using hbird debugger to fpga board
 # download program to fpga board, and monitor on com port
-make CORE=n300fd DOWNLOAD=ilm upload
+make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 ~~~
 
 ## 2. Use TinyMaix  in Nuclei Studio IDE
@@ -104,7 +104,7 @@ make CORE=n300fd DOWNLOAD=ilm upload
 
 - Open the Nuclei Studio IDE
 
-- Downlaod a Nuclei SDK package of version no older than 0.4.0 from the Nuclei Package Management
+- Downlaod a Nuclei SDK package of version >= 0.4.0 from the Nuclei Package Management
 
   > **Note:**  Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) through Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
 
@@ -148,6 +148,20 @@ make CORE=n300fd DOWNLOAD=ilm upload
 
 > **Note:** Other CPU series can be easily tested using Nuclei SDK
 > using different fpga bitstream.
+
+## FAQs
+
+### Default ilm/dlm size in evalsoc is 64K/64K, to run these cases, size for ilm/dlm should be changed to 512K/512K.
+
+If you met issue like this: `section \`.text' will not fit in region `ilm'`, this is caused generally by ilm/dlm size not big enough to store the code, please change the  ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
+
+**If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the download mode to ddr(DOWNLOAD=ddr).**
+
+Now this patching step is done by build system, no need to do any more steps.
+
+```shell
+sed -i "s/64K/512K/g" /path/to/nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld
+```
 
 ## Author
 
