@@ -158,7 +158,7 @@ MEMORY
 
 
 
-**Note: **If you met issue like this: `section \`.text' will not fit in region `ilm'`, this is caused generally by ilm/dlm size not big enough to store the code, please change the  ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
+**Note:**If you met issue like this: `section \`.text' will not fit in region `ilm'`, this is caused generally by ilm/dlm size not big enough to store the code, please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
 
 ~~~sh
 # IDE: nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld
@@ -173,7 +173,7 @@ MEMORY
 }
 ~~~
 
-If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the download mode to ddr(DOWNLOAD=ddr),, please make sure the hardware support ddr if run on hardware.
+If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the download mode to ddr, make sure the hardware support ddr if run on hardware.
 
 ## Result
 
