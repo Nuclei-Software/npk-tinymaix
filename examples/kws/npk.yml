@@ -16,6 +16,7 @@ homepage: https://github.com/Nuclei-Software/npk-tinymaix/tree/nuclei-main/examp
 ## Package Dependency
 dependencies:
   - name: mwp-nsdk_tinymaix
+  - name: sdk-nuclei_sdk
 
 ## Package Configurations
 configuration:
