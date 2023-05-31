@@ -1,5 +1,7 @@
 # TinyMaix
 
+> If you are looking for **how to run on Nuclei RISC-V Processor**, please check [this guidance](doc/porting/port_Nuclei.md)
+
 [中文](README_ZH.md) | English
 
 TinyMaix is a tiny inference Neural Network library specifically for microcontrollers (TinyML).   
