@@ -1,5 +1,5 @@
 ## Package Base Information
-name: app-tinymaix_kws
+name: app-nsdk_tinymaix_kws
 owner: nuclei
 version:
 description: Tinymaix kws demo
@@ -11,12 +11,11 @@ keywords:
   - ai
 category: tinymaix ml application
 license: Apache-2.0
-homepage: https://github.com/riscv-mcu/TinyMaix/tree/nuclei-main/examples/kws
+homepage: https://github.com/Nuclei-Software/npk-tinymaix/tree/nuclei-main/examples/kws
 
 ## Package Dependency
 dependencies:
-  - name: sdk-nuclei_sdk
-  - name: mwp-libtinymaix
+  - name: mwp-nsdk_tinymaix
 
 ## Package Configurations
 configuration:

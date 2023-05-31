@@ -1,7 +1,6 @@
 ## Package Base Information
-name: app-tinymaix_cifar10
+name: app-nsdk_tinymaix_cifar10
 owner: nuclei
-version:
 description: Tinymaix cifar10 demo
 type: app
 keywords:
@@ -11,12 +10,11 @@ keywords:
   - ai
 category: tinymaix ml application
 license: Apache-2.0
-homepage: https://github.com/riscv-mcu/TinyMaix/tree/nuclei-main/examples/cifar10
+homepage: https://github.com/Nuclei-Software/npk-tinymaix/tree/nuclei-main/examples/cifar10
 
 ## Package Dependency
 dependencies:
-  - name: sdk-nuclei_sdk
-  - name: mwp-libtinymaix
+  - name: mwp-nsdk_tinymaix
 
 ## Package Configurations
 configuration:
