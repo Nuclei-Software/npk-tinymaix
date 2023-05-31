@@ -162,7 +162,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
   ![run](images/run.png)
 
 
-**Note:** If you met issue like this: `section .text will not fit in region ilm`, this is caused generally by ilm/dlm size not big enough to store the code,
+**Note:** If you meet an issue like this: `section .text will not fit in region ilm`, this is caused generally by ilm/dlm size not big enough to store the code,
 please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
 
 ~~~sh
@@ -190,6 +190,11 @@ If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the do
 
 > **Note:** Other CPU series can be easily tested using Nuclei SDK
 > using different fpga bitstream.
+
+## FAQ
+
+If you have questions or troubles when following this guideline, please check this issues,
+if not solved, you can open a new issue, maybe community could help with you.
 
 ## Author
 
