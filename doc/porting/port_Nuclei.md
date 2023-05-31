@@ -117,13 +117,16 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 - Download Nuclei Studio IDE from [Nuclei Studio](https://www.rvmcu.com/nucleistudio.html)
 
-- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.0.0)
-
 - Open the Nuclei Studio IDE
 
-- Download a Nuclei SDK package of version >= 0.4.0 from the Nuclei Package Management
+- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.0.0)
+  or `mwp-nsdk_tinymaix` package from Nuclei Package Management in Nuclei Studio IDE
 
-  > **Note:**  Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) through Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
+- Download a Nuclei SDK package, version **0.4.1** from the Nuclei Package Management in Nuclei Studio IDE
+
+  > **Note:**
+  > Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) 
+  > through Nuclei Package Management in the IDE. And make sure only one version of Nuclei SDK can be installed.
 
   ![import_sdk](images/import_sdk.png)
 
@@ -131,7 +134,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
   ![import_zip_pakage](images/import_zip_pakage.png)
 
-- Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://www.nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide_202212.pdf ) if necessary)
+- Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://www.nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide_202212.pdf) if necessary)
 
   a. Choose the SoC, board and the SDK.
 
@@ -145,18 +148,22 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 - Build and run
 
-   a. Clip the "Build" button to build the project
+   a. Click the "Build" button to build the project
 
-  > **Note:** Size for ilm and ram should be set big enough as nessessary, or the compilation will fail.
+  > **Note:**
+  > - Size for ilm and ram should be set big enough at least 512K as nessessary, or the compilation will fail.
+  > - You need to change the `nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld` link script manually, change 64K to 512K
+  >   And make sure your cpu ilm/dlm configuration also match with the changes.
 
   ![build](images/build.png)
 
-   b. Select qemu debugging and clip the "Run" button
+   b. Select qemu debugging and click the "Run" button
 
   ![run](images/run.png)
 
 
-**Note:** If you met issue like this: `section \`.text' will not fit in region `ilm'`, this is caused generally by ilm/dlm size not big enough to store the code, please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
+**Note:** If you met issue like this: `section .text will not fit in region ilm`, this is caused generally by ilm/dlm size not big enough to store the code,
+please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
 
 ~~~sh
 # IDE: nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld
