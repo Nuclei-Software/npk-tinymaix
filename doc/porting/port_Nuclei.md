@@ -200,4 +200,4 @@ if not solved, you can open a new issue, maybe community could help with you.
 
 [Huaqi Fang](https://github.com/fanghuaqi)
 
-[Jiuling Sun](https://github.com/sunjiuling)
+[Jiuling Sun](https://github.com/JoleenSun)
