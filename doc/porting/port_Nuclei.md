@@ -62,7 +62,7 @@ Make sure you have followed the steps in https://doc.nucleisys.com/nuclei_sdk/qu
 
 ~~~shell
 # branch: nuclei-main
-git clone -b nuclei-main https://github.com/Nuclei-Software/npk-tinymaix.git TinyMaix
+git clone -b nuclei-main https://github.com/Nuclei-Software/npk-tinymaix.git
 ~~~
 
 - Build and run tinymaix examples
@@ -109,9 +109,9 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 ### Development Environment
 
-- Nuclei SDK 0.4.1
-- Nuclei Studio 2022.12
-- TinyMaix 1.0.0
+- Nuclei SDK 0.5.0
+- Nuclei Studio 2023.10
+- TinyMaix 1.1.0
 
 ### Operation Steps
 
@@ -122,7 +122,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 - Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.0.0)
   or `mwp-nsdk_tinymaix` package from Nuclei Package Management in Nuclei Studio IDE
 
-- Download a Nuclei SDK package, version **0.4.1** from the Nuclei Package Management in Nuclei Studio IDE
+- Download a Nuclei SDK package, version **0.5.0** from the Nuclei Package Management in Nuclei Studio IDE
 
   > **Note:**
   > Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) 
@@ -142,18 +142,21 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
    b. Find the example you want and fill the configuration items
 
-  > **Note:** Users can filter by tinymaix (or ai or tinyml) to find the example  more quickly.
-
   ![select_example_and_config](images/select_example_and_config.png)
+
+  > **Note:**
+  >
+  > - Users can filter by tinymaix (or ai or tinyml) to find the example  more quickly；
+  > - More information about the extension types may refer to [arch-ext](https://doc.nucleisys.com/nuclei_sdk/develop/buildsystem.html#arch-ext).
 
 - Build and run
 
    a. Click the "Build" button to build the project
 
   > **Note:**
-  > - Size for ilm and ram should be set big enough at least 512K as nessessary, or the compilation will fail.
-  > - You need to change the `nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld` link script manually, change 64K to 512K
-  >   And make sure your cpu ilm/dlm configuration also match with the changes.
+  > - Size for ilm and ram should be set big enough at least 512K as nessessary, or the compilation will fail；
+  > - You need to change the `nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld` link script manually, change 64K to 512K；
+  > - And make sure your cpu ilm/dlm configuration also match with the changes.
 
   ![build](images/build.png)
 
@@ -161,9 +164,8 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
   ![run](images/run.png)
 
-
 **Note:** If you meet an issue like this: `section .text will not fit in region ilm`, this is caused generally by ilm/dlm size not big enough to store the code,
-please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
+          please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
 
 ~~~sh
 # IDE: nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld

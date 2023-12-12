@@ -41,6 +41,8 @@ codemanage:
 ## Build Configuration
 buildconfig:
   - type: gcc
+    toolchain_name: RISC-V GCC/Newlib
+    cross_prefix: riscv64-unknown-elf- # optional
     common_flags: # flags need to be combined together across all packages
       - flags: ${app_commonflags}
     ldflags:

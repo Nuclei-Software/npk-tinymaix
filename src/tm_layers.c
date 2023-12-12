@@ -53,10 +53,10 @@ TM_STATIC mtype_t sbuf[TM_MAX_KCSIZE];
 #elif (TM_MDL_TYPE==TM_MDL_INT8) || (TM_MDL_TYPE==TM_MDL_INT16) 
 
 #if TM_FASTSCALE
-    TM_STATIC int32_t sumscale[TM_MAX_CSIZE];
+    static int32_t sumscale[TM_MAX_CSIZE];
     #define OUTSCALE outscale
 #else
-    TM_STATIC float sumscale[TM_MAX_CSIZE];
+    static float sumscale[TM_MAX_CSIZE];
     #define OUTSCALE outscale_inv
 #endif
 #define SUMSCALE (sumscale + c)
@@ -285,11 +285,11 @@ tm_err_t TM_WEAK tml_reshape(tm_mat_t* in, tm_mat_t* out, sctype_t in_s, zptype_
 
 tm_err_t TM_WEAK tml_add(tm_mat_t* in0, tm_mat_t* in1, tm_mat_t* out, \
     sctype_t in_s0, zptype_t in_zp0, sctype_t in_s1, zptype_t in_zp1, sctype_t out_s, zptype_t out_zp)
-{   //TODO: check in0 shape == in1 shape 
+{   //TODO: check in0 shape == in1 shape
     //It is simple and experimental implement for ADD, could be more way faster
     mtype_t* d0 = in0->data;
     mtype_t* d1 = in1->data;
-    mtype_t* res = out->data; 
+    mtype_t* res = out->data;
     int size = in0->h*in0->w*in0->c;
     TM_PRINTF("s0=%.3f,zp0=%d; s1=%.3f,zp1=%d\r\n", in_s0, in_zp0, in_s1, in_zp1);
 #if TM_MDL_TYPE == TM_MDL_FP16 || TM_MDL_TYPE == TM_MDL_FP32 || TM_MDL_TYPE == TM_MDL_INT8

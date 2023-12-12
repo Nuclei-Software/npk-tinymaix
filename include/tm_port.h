@@ -60,7 +60,7 @@ limitations under the License.
 #define TM_DBGL()      TM_PRINTF("###L%d\n",__LINE__);
 
 /******************************* DBG TIME CONFIG  ************************************/
-//#include <sys/time.h>
+#include <sys/time.h>
 #include <time.h>
 #define  TM_GET_US()       ((uint32_t)((uint64_t)clock()*1000000/CLOCKS_PER_SEC))
 
