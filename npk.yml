@@ -7,13 +7,13 @@ keywords:
   - library
   - tinyml
   - ai
-version: 1.0.0
+version: 1.1.0
 license: Apache-2.0
 homepage: https://github.com/Nuclei-Software/npk-tinymaix
 
 dependencies:
   - name: sdk-nuclei_sdk
-    version: 0.4.1
+    version: 0.5.0
 
 packinfo:
   name: Tiny inference library for microcontrollers(TinyML)

@@ -58,19 +58,19 @@ TM_STATIC uint32_t k_oft[TM_MAX_KSIZE];
 TM_STATIC mtype_t sbuf[TM_MAX_KCSIZE]; 
 #if (TM_MDL_TYPE==TM_MDL_FP32) || (TM_MDL_TYPE==TM_MDL_FP16) 
 #define SUMSCALE NULL
-TM_STATIC sctype_t outscale;
+static sctype_t outscale;
 #define OUTSCALE outscale
 
 #elif (TM_MDL_TYPE==TM_MDL_INT8) || (TM_MDL_TYPE==TM_MDL_INT16) 
 
 #if TM_FASTSCALE
-    TM_STATIC int32_t sumscale[TM_MAX_CSIZE];
-    TM_STATIC int32_t outscale;
+    static int32_t sumscale[TM_MAX_CSIZE];
+    static int32_t outscale;
     #define OUTSCALE outscale
 #else
-    TM_STATIC float sumscale[TM_MAX_CSIZE];
-    TM_STATIC sctype_t outscale;
-    TM_STATIC sctype_t outscale_inv;
+    static float sumscale[TM_MAX_CSIZE];
+    static sctype_t outscale;
+    static sctype_t outscale_inv;
     #define OUTSCALE outscale_inv
 #endif
 #define SUMSCALE (sumscale + c)
@@ -464,10 +464,10 @@ TM_INLINE tm_err_t l_tml_dwconv2d_3x3_nostride(tm_mat_t* in, tm_mat_t* out, wtyp
                     sum3 = sptr[dw_koft[5]]*kptr[0] + sptr[dw_koft[6]]*kptr[1] + sptr[dw_koft[7]]*kptr[2] + \
                         sptr[dw_koft[9]]*kptr[3] + sptr[dw_koft[10]]*kptr[4] + sptr[dw_koft[11]]*kptr[5] + \
                         sptr[dw_koft[13]]*kptr[6] + sptr[dw_koft[14]]*kptr[7] + sptr[dw_koft[15]]*kptr[8] ;
-                    tm_postprocess_sum(1, &sum0, b + c, act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum1, b + c, act, outp+1*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum2, b + c, act, outp+(out->w+0)*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum3, b + c, act, outp+(out->w+1)*cho, SUMSCALE, OUTSCALE, out_zp); 
+                    tm_postprocess_sum(1, &sum0, b + c, act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum1, b + c, act, outp+1*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum2, b + c, act, outp+(out->w+0)*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum3, b + c, act, outp+(out->w+1)*cho, SUMSCALE, OUTSCALE, out_zp);
                     outp ++;
                     sptr ++;
                 }
@@ -503,7 +503,7 @@ TM_INLINE tm_err_t l_tml_dwconv2d_3x3_nostride(tm_mat_t* in, tm_mat_t* out, wtyp
                 for(int c=0; c<out->c; c++){
                     wtype_t* kptr = (wtype_t*)w + c*maxk;
                     //tm_dot_prod(sptr, kptr, maxk, &sum);TM_PERF_ADD(t_dotp);
-                    //tm_postprocess_sum(sum, b[c], act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp); 
+                    //tm_postprocess_sum(sum, b[c], act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp);
                     sum0 = sptr[0]*kptr[0] + sptr[1]*kptr[1] + sptr[2]*kptr[2] + \
                         sptr[4]*kptr[3] + sptr[5]*kptr[4] + sptr[6]*kptr[5] + \
                         sptr[8]*kptr[6] + sptr[9]*kptr[7] + sptr[10]*kptr[8] ;
@@ -516,10 +516,10 @@ TM_INLINE tm_err_t l_tml_dwconv2d_3x3_nostride(tm_mat_t* in, tm_mat_t* out, wtyp
                     sum3 = sptr[5]*kptr[0] + sptr[6]*kptr[1] + sptr[7]*kptr[2] + \
                         sptr[9]*kptr[3] + sptr[10]*kptr[4] + sptr[11]*kptr[5] + \
                         sptr[13]*kptr[6] + sptr[14]*kptr[7] + sptr[15]*kptr[8] ;
-                    tm_postprocess_sum(1, &sum0, b + c, act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum1, b + c, act, outp+1*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum2, b + c, act, outp+(out->w+0)*cho, SUMSCALE, OUTSCALE, out_zp); 
-                    tm_postprocess_sum(1, &sum3, b + c, act, outp+(out->w+1)*cho, SUMSCALE, OUTSCALE, out_zp); 
+                    tm_postprocess_sum(1, &sum0, b + c, act, outp+0*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum1, b + c, act, outp+1*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum2, b + c, act, outp+(out->w+0)*cho, SUMSCALE, OUTSCALE, out_zp);
+                    tm_postprocess_sum(1, &sum3, b + c, act, outp+(out->w+1)*cho, SUMSCALE, OUTSCALE, out_zp);
                     //printf("==%.1f,%.1f,%.1f,%.1f\r\n", out->data[0], out->data[1], out->data[2], out->data[3]);
                     sptr += maxk_blk; //dwconv need move step
                     outp++;
@@ -766,11 +766,11 @@ tm_err_t TM_WEAK tml_reshape(tm_mat_t* in, tm_mat_t* out, sctype_t in_s, zptype_
 
 tm_err_t TM_WEAK tml_add(tm_mat_t* in0, tm_mat_t* in1, tm_mat_t* out, \
     sctype_t in_s0, zptype_t in_zp0, sctype_t in_s1, zptype_t in_zp1, sctype_t out_s, zptype_t out_zp)
-{   //TODO: check in0 shape == in1 shape 
+{   //TODO: check in0 shape == in1 shape
     //It is simple and experimental implement for ADD, could be more way faster
     mtype_t* d0 = in0->data;
     mtype_t* d1 = in1->data;
-    mtype_t* res = out->data; 
+    mtype_t* res = out->data;
     int size = in0->h*in0->w*in0->c;
     TM_PRINTF("s0=%.3f,zp0=%d; s1=%.3f,zp1=%d\r\n", in_s0, in_zp0, in_s1, in_zp1);
 #if TM_MDL_TYPE == TM_MDL_FP16 || TM_MDL_TYPE == TM_MDL_FP32 || TM_MDL_TYPE == TM_MDL_INT8

@@ -14,7 +14,7 @@
     },
     "build_target": "clean all",
     "build_config": {
-        "SOC": "demosoc"
+        "SOC": "evalsoc"
     },
     "checks": {
         "PASS": ["### Predict output"],
@@ -27,6 +27,7 @@
         "examples/auto_test/",
         "examples/maixhub_detection_yolov2/",
         "examples/maixhub_image_classification/",
+        "examples/maixhub_detection_fomo/",
         "examples/mnist_arduino/",
         "examples/layer_test/"
     ],

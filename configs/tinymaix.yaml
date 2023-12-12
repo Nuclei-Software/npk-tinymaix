@@ -56,7 +56,7 @@ configs:
         bitstream: n200_software_best_config_ddr200t.bit
         ncycm: n200b
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: n200.json
     # cpu core name
@@ -65,7 +65,7 @@ configs:
         bitstream: n300_software_best_config_ddr200t.bit
         ncycm: n300fdbp
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: n300.json
     # cpu core name
@@ -74,7 +74,7 @@ configs:
         bitstream: n600_software_best_config_ku060.bit
         ncycm: n600fdbp
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: n600.json
     # cpu core name
@@ -83,7 +83,7 @@ configs:
         bitstream: ux600_software_best_config_ku060.bit
         ncycm: ux600fdbp
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: ux600.json
     # cpu core name
@@ -92,7 +92,7 @@ configs:
         bitstream: n900_software_best_config_vcu118.bit
         ncycm: n900fdbp
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: n900.json
     # cpu core name
@@ -101,6 +101,6 @@ configs:
         bitstream: ux900_software_best_config_vcu118.bit
         ncycm: ux900fdbp
         # make sure openocd path match with your SOC variable settings
-        openocd_cfg: SoC/demosoc/Board/nuclei_fpga_eval/openocd_demosoc.cfg
+        openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg
         appcfg: tinymaix.json
         hwcfg: ux900.json
