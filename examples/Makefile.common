@@ -25,13 +25,10 @@ ifneq ($(TM_MDL_TYPE),)
 COMMON_FLAGS += -DTM_MDL_TYPE=$(TM_MDL_TYPE)
 endif
 
-# use different linker script file for evalsoc and demosoc
+# linker script file used for evalsoc
 # when DOWNLOAD=ilm, this will work with the best_config bitstream
 # download from nuclei internal http://doc/cpu_signoff/
 ifeq ($(DOWNLOAD),ilm)
-ifeq ($(SOC),demosoc)
-LINKER_SCRIPT ?= ../gcc_512K.ld
-endif
 ifeq ($(SOC),evalsoc)
 LINKER_SCRIPT ?= ../gcc_512K.ld
 endif
