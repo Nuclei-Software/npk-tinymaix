@@ -16,7 +16,7 @@ TinyMaix port to Nuclei RISC-V Processor can be found in https://github.com/Nucl
 | Freq         | 16MHz/100MHz   |
 | Flash        | 16MBytes       |
 | RAM          | ILM/DLM 512K, DDR 1.5G  |
-| Acceleration | RVV 1.0, RVP 0.5.3    |
+| Acceleration | RVV 1.0, RVP 0.5.4    |
 
 > - ILM/DLM need a 512K version bitstream.
 > - Other Nuclei processor based chip can be easily supported.
@@ -76,7 +76,7 @@ Take cifar10 as example using Nuclei DDR200T board, N300 RISC-V CPU.
 > https://doc.nucleisys.com/nuclei_sdk/quickstart.html#build-run-and-debug-sample-application
 
 Here in these examples' Makefile, if you built with `DOWNLOAD=ilm`, build system will use a 512K ilm/dlm linker script file,
-see `examples/gcc_512K.ld` and `examples/Makefile.common`, so if you want to change the linker script file, please change
+see `examples/gcc_512K.ld` and `examples/Makefile.common`, so if you want to change the linker script file, please change to
 this one.
 
 **Run on qemu (software simulation):**
@@ -109,9 +109,9 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 ### Development Environment
 
-- Nuclei SDK 0.5.0
-- Nuclei Studio 2023.10
-- TinyMaix 1.1.0
+- Nuclei SDK 0.6.0
+- Nuclei Studio 2024.06
+- TinyMaix 1.2.0
 
 ### Operation Steps
 
@@ -122,7 +122,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 - Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.0.0)
   or `mwp-nsdk_tinymaix` package from Nuclei Package Management in Nuclei Studio IDE
 
-- Download a Nuclei SDK package, version **0.5.0** from the Nuclei Package Management in Nuclei Studio IDE
+- Download a Nuclei SDK package, version **0.6.0** from the Nuclei Package Management in Nuclei Studio IDE
 
   > **Note:**
   > Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) 
@@ -131,9 +131,6 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
   ![import_sdk](images/import_sdk.png)
 
 - Import the zip package of **TinyMaix** in the same way after the steps above are ready
-
-  ![import_zip_pakage](images/import_zip_pakage.png)
-
 - Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://www.nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide_202212.pdf) if necessary)
 
   a. Choose the SoC, board and the SDK.
@@ -155,7 +152,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
   > **Note:**
   > - Size for ilm and ram should be set big enough at least 512K as nessessary, or the compilation will fail；
-  > - You need to change the `nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld` link script manually, change 64K to 512K；
+  > - You need to change the `nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/evalsoc.memory` link script manually, change the value of `ILM_MEMORY_SIZE` and `DLM_MEMORY_SIZE` from 0x10000 to 0x80000；
   > - And make sure your cpu ilm/dlm configuration also match with the changes.
 
   ![build](images/build.png)
@@ -167,28 +164,74 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 **Note:** If you meet an issue like this: `section .text will not fit in region ilm`, this is caused generally by ilm/dlm size not big enough to store the code,
           please change the ilm/dlm size from 64K/64K to 512K/512K. If run on hardware, please make sure the hardware is configured with 512K ILM/DLM.
 
-~~~sh
-# IDE: nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/gcc_evalsoc_ilm.ld
-OUTPUT_ARCH( "riscv" )
+~~~linkscript
+# IDE: nuclei_sdk/SoC/evalsoc/Board/nuclei_fpga_eval/Source/GCC/evalsoc.memory
+/* ILM Memory Information */
+ILM_MEMORY_PRESENT = 1;
+ILM_MEMORY_BASE = 0x80000000;
+ILM_MEMORY_SIZE = 0x80000;
 
-ENTRY( _start )
-
-MEMORY
-{
-  ilm (rxa!w) : ORIGIN = 0x80000000, LENGTH = 512K  # change 64K to 512K
-  ram (wxa!r) : ORIGIN = 0x90000000, LENGTH = 512K  # change 64K to 512K
-}
+/* DLM Memory Information */
+DLM_MEMORY_PRESENT = 1;
+DLM_MEMORY_BASE = 0x90000000;
+DLM_MEMORY_SIZE = 0x80000;
 ~~~
 
 If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the download mode to ddr, make sure the hardware support ddr if run on hardware.
 
+![change_download_mode](images/change_download_mode.png)
+
 ## Result
 
-### N300 16MHz
+### N300 series
 
-| config | mnist | cifar | vww  | kws |
-| ------ | ----- | ----- | ------ | -------- |
-| RV32IMAFDC | 11.098 | 794.764 | 2948.738 | 151.968 |
+- bitstream: n300_best_config_ddr200t_16M_e0a87d523_76bbb5c19_202405131346.bit
+- Board: [Nuclei DDR200T](https://www.nucleisys.com/developboard.php#ddr200t)
+- CPU clock: 16MHz
+
+#### Example cifar10		
+
+| RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
+| -- | -- | -- | -- | -- |
+| freq/HZ	  |  16000942 | 16000942	| 16000942	| 16002252 |
+| param/KB	|  88.4	    | 88.4	    | 88.4	    | 88.4     |
+| OPS/MOPS	|  3.08	    | 3.08	    | 3.08	    | 3.08     |
+| buffer/KB	|  11.0	    | 11.0	    | 11.0	    | 11.0     |
+| time/ms	  |  302.732	| 795.765	  | 1069.349	| 800.260  |
+| cycles	  |  4843997	| 12732989	| 17110591	| 12805962 |
+
+#### Example kws
+
+| RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
+| -- | -- | -- | -- | -- |
+| freq/HZ	  | 16000942	| 16000942	| 16000942	| 16000942 |
+| param/KB	| 8.3	      | 8.3	      | 8.3	      | 8.3 |
+| OPS/MOPS	| 0.24	    | 0.24	    | 0.24	    | 0.24 |
+| buffer/KB	| 5.0	      | 5.0	      | 5.0	      | 5.0 |
+| time/ms	  | 120.228	  | 150.499	  | 412.847	  | 154.872 |
+| cycles	  | 1923761	  | 2408125	  | 6605940	  | 2478097 |
+
+#### Example mnist	
+
+| RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
+| -- | -- | -- | -- | -- |
+| freq/HZ	  |	16002580	| 15999959	| 16000286	| 16000942 |
+| param/KB	|	1.9	      | 1.9	      | 1.9	      | 1.9 |
+| OPS/MOPS	|	0.02	    | 0.02	    | 0.02	    | 0.02 |
+| buffer/KB	|	1.4	      | 1.4	      | 1.4	      | 1.4 |
+| time/ms	  |	7.640	    | 11.025	  | 41.815	  | 13.781 |
+| cycles	  |	122259	  | 176399	  | 669051	  | 220508 |
+
+#### Example vww		
+
+| RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
+| -- | -- | -- | -- | -- |
+| freq/HZ	  |	16000942	| 16000942	| 16000942	| 16000942 |
+| param/KB	|	224.6	    | 224.6	    | 224.6	    | 224.6 |
+| OPS/MOPS	|	7.49	    | 7.49	    | 7.49	    | 7.49 |
+| buffer/KB	|	54.0	    | 54.0	    | 54.0	    | 54.0 |
+| time/ms	  |	1470.737	| 2761.870	| 10507.108	| 2790.050 |
+| cycles	  |	23533177	| 44192521	| 168123625	| 44643428 |
 
 > **Note:** Other CPU series can be easily tested using Nuclei SDK
 > using different fpga bitstream.
