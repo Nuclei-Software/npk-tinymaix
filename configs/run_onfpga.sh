@@ -19,10 +19,10 @@ if [ "x$CONFIG" == "x" ] ; then
 fi
 
 reqboards=""
-if [[ "$CONFIG" == *"200"* ]] || [[ "$CONFIG" == *"300"* ]] ; then
+if [[ "$CONFIG" == *"200"* ]] ; then
     reqboards="ddr200t,${reqboards}"
 fi
-if [[ "$CONFIG" == *"600"* ]] ; then
+if [[ "$CONFIG" == *"600"* ]] || [[ "$CONFIG" == *"300"* ]] ; then
     reqboards="ku060,${reqboards}"
 fi
 if [[ "$CONFIG" == *"900"* ]] ; then
