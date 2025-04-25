@@ -109,9 +109,9 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 ### Development Environment
 
-- Nuclei SDK 0.6.0
-- Nuclei Studio 2024.06
-- TinyMaix 1.2.0
+- Nuclei SDK 0.7.1
+- Nuclei Studio 2025.02
+- TinyMaix 1.3.0
 
 ### Operation Steps
 
@@ -119,10 +119,10 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 - Open the Nuclei Studio IDE
 
-- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.2.0)
+- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.3.0)
   or `mwp-nsdk_tinymaix` package from Nuclei Package Management in Nuclei Studio IDE
 
-- Download a Nuclei SDK package, version **0.6.0** from the Nuclei Package Management in Nuclei Studio IDE
+- Download a Nuclei SDK package, version **0.7.1** from the Nuclei Package Management in Nuclei Studio IDE
 
   > **Note:**
   > Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) 
@@ -131,7 +131,7 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
   ![import_sdk](images/import_sdk.png)
 
 - Import the zip package of **TinyMaix** in the same way after the steps above are ready
-- Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://download.nucleisys.com/upload/files/doc/nucleistudio/Nuclei_Studio_User_Guide.202406.pdf) if necessary)
+- Create a new Nuclei RISC-V C/C++ Project (refer to the [Nuclei IDE User Guide](https://download.nucleisys.com/upload/files/doc/nucleistudio/NucleiStudio_User_Guide.202502.pdf) if necessary)
 
   a. Choose the SoC, board and the SDK.
 
