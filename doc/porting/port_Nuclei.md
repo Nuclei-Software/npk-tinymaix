@@ -109,9 +109,9 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 ### Development Environment
 
-- Nuclei SDK 0.7.1
+- Nuclei SDK 0.8.0
 - Nuclei Studio 2025.02
-- TinyMaix 1.3.0
+- TinyMaix 1.4.0
 
 ### Operation Steps
 
@@ -119,10 +119,10 @@ make SOC=evalsoc CORE=n300fd DOWNLOAD=ilm upload
 
 - Open the Nuclei Studio IDE
 
-- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.3.0)
+- Download TinyMaix zip package from [TinyMaix](https://github.com/Nuclei-Software/npk-tinymaix/releases/tag/1.4.0)
   or `mwp-nsdk_tinymaix` package from Nuclei Package Management in Nuclei Studio IDE
 
-- Download a Nuclei SDK package, version **0.7.1** from the Nuclei Package Management in Nuclei Studio IDE
+- Download a Nuclei SDK package, version **0.8.0** from the Nuclei Package Management in Nuclei Studio IDE
 
   > **Note:**
   > Another way is supported that import SDK zip package which can be obtained from [Nuclei SDK](https://github.com/Nuclei-Software/nuclei-sdk) 
@@ -185,57 +185,57 @@ If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the do
 
 ### N300 series
 
-- bitstream: n300_best_config_ku060_16M_e3f086144_8bc45f3df_202407151024.bit
-- Board: KU060
+- bitstream: n300_best_config_mcu200t_16M_43cd6fba0_d8720dedf_202505192215.bit
+- Board: DDR200T
 - CPU clock: 16MHz
 
 #### Example cifar10		
 
 | RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
 | -- | -- | -- | -- | -- |
-| freq/HZ   | 16000614    | 16001597   | 15999959 | 16001269  |
-| param/KB  | 88.4        | 88.4       | 88.4     | 88.4      |
-| OPS/MOPS  | 3.08        | 3.08       | 3.08     | 3.08      |
-| buffer/KB | 11.0        | 11.0       | 11.0     | 11.0      |
-| time/ms   | 303.448     | 795.588    | 1076.420 | 799.886   |
-| cycle     | 4855354     | 12730678   | 17222675 | 12799191  |
+| freq/HZ   | 16004546 | 16003891 | 16004546 | 16004218 |
+| param/KB  | 88.4     | 88.4     | 88.4     | 88.4     |
+| OPS/MOPS  | 3.08     | 3.08     | 3.08     | 3.08     |
+| buffer/KB | 11.0     | 11.0     | 11.0     | 11.0     |
+| time/ms   | 262.620  | 795.120  | 1070.319 | 797.931  |
+| cycle     | 4203113  | 12725013 | 17129969 | 12770261 |
 
 #### Example kws
 
 | RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
 | -- | -- | -- | -- | -- |
-| freq/HZ      | 15999959    | 15993405   | 15999959 | 16001269  |
-| param/KB     | 8.3         | 8.3        | 8.3      | 8.3       |
-| OPS/MOPS     | 0.24        | 0.24       | 0.24     | 0.24      |
-| buffer/KB    | 5.0         | 5.0        | 5.0      | 5.0       |
-| time/ms      | 120.123     | 150.293    | 416.598  | 154.687   |
-| cycle        | 1921963     | 2403696    | 6665550  | 2475188   |
+| freq/HZ   | 16004546    | 16003891   | 16004546 | 16004218  |
+| param/KB  | 8.3         | 8.3        | 8.3      | 8.3       |
+| OPS/MOPS  | 0.24        | 0.24       | 0.24     | 0.24      |
+| buffer/KB | 5.0         | 5.0        | 5.0      | 5.0       |
+| time/ms   | 109.611     | 147.250    | 404.821  | 148.038   |
+| cycle     | 1754274     | 2356572    | 6478976  | 2369232   |
 
 #### Example mnist	
 
 | RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
 | -- | -- | -- | -- | -- |
-| freq/HZ   | 16000614    | 16001269   | 16000614 | 16000286  |
+| freq/HZ   | 16005529    | 16003891   | 16003563 | 16003563  |
 | param/KB  | 1.9         | 1.9        | 1.9      | 1.9       |
 | OPS/MOPS  | 0.02        | 0.02       | 0.02     | 0.02      |
 | buffer/KB | 1.4         | 1.4        | 1.4      | 1.4       |
-| time/ms   | 7.614       | 11.004     | 41.456   | 13.731    |
-| cycle     | 121828      | 176077     | 663321   | 219699    |
+| time/ms   | 6.995       | 10.799     | 39.799   | 13.542    |
+| cycle     | 111958      | 172826     | 636925   | 216720    |
 
 #### Example vww		
 
 | RUNCONFIG |	rv32imafdcp |	rv32imafdc |	rv32imac | rv32imafc |
 | -- | -- | -- | -- | -- |
-| freq/HZ   | 15999959    | 16001269   | 15999959  | 16001925  |
+| freq/HZ   | 15985213    | 15984885   | 16005201  | 16004218  |
 | param/KB  | 224.6       | 224.6      | 224.6     | 224.6     |
 | OPS/MOPS  | 7.49        | 7.49       | 7.49      | 7.49      |
 | buffer/KB | 54.0        | 54.0       | 54.0      | 54.0      |
-| time/ms   | 1471.639    | 2766.867   | 10485.742 | 2790.640  |
-| cycle     | 23546163    | 44273383   | 167771442 | 44655611  |
+| time/ms   | 1377.940    | 2749.378   | 10466.280 | 2747.881  |
+| cycle     | 22026664    | 43948491   | 167514915 | 43977686  |
 
 ### N900 series
 
-- bitstream: u900_best_config_vcu118_50M_c6e66aff6b_9b05e5052_202407230929.bit
+- bitstream: u900_best_config_vcu118_50M_c1dd7f44af_915aefa97_202504141408.bit
 - Board: VCU118
 - CPU clock: 50MHz
 
@@ -243,60 +243,60 @@ If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the do
 
 | RUNCONFIG | rv32imafdcv_ddr | rv32imafdcp_ddr | rv32imafdc_ddr | rv32imafdcv_ilm | rv32imafdcp_ilm | rv32imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50328698        | 50327060        | 50328698       | 50307727        | 50306416        | 50328698       |
+| freq/HZ   | 50314280        | 50314280        | 50314280       | 50310348        | 50340495        | 50340495       |
 | param/KB  | 88.4            | 88.4            | 88.4           | 88.4            | 88.4            | 88.4           |
 | OPS/MOPS  | 3.08            | 3.08            | 3.08           | 3.08            | 3.08            | 3.08           |
 | buffer/KB | 11.0            | 11.0            | 11.0           | 11.0            | 11.0            | 11.0           |
-| time/ms   | 36.602          | 111.678         | 140.927        | 33.821          | 108.664         | 137.567        |
-| cycle     | 1842131         | 5620425         | 7092672        | 1701457         | 5466496         | 6923567        |
+| time/ms   | 35.979          | 111.407         | 155.044        | 32.720          | 108.812         | 152.659        |
+| cycle     | 1810257         | 5605362         | 7800927        | 1646154         | 5477649         | 7684929        |
 
 #### Example kws
 
 | RUNCONFIG | rv32imafdcv_ddr | rv32imafdcp_ddr | rv32imafdc_ddr | rv32imafdcv_ilm | rv32imafdcp_ilm | rv32imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50328698        | 50327060        | 50328698       | 50328698        | 50327060        | 50328698       |
+| freq/HZ   | 50343116        | 50343116        | 50314280       | 50340495        | 50310348        | 50310348       |
 | param/KB  | 8.3             | 8.3             | 8.3            | 8.3             | 8.3             | 8.3            |
 | OPS/MOPS  | 0.24            | 0.24            | 0.24           | 0.24            | 0.24            | 0.24           |
 | buffer/KB | 5.0             | 5.0             | 5.0            | 5.0             | 5.0             | 5.0            |
-| time/ms   | 23.186          | 33.972          | 35.159         | 24.102          | 33.790          | 33.634         |
-| cycle     | 1166921         | 1709710         | 1769506        | 1213022         | 1700551         | 1692755        |
+| time/ms   | 24.410          | 33.682          | 35.813         | 24.106          | 33.557          | 35.659         |
+| cycle     | 1228875         | 1695656         | 1801905        | 1213507         | 1688264         | 1794016        |
 
 #### Example mbnet	
 
 | RUNCONFIG | rv32imafdcv_ddr | rv32imafdcp_ddr | rv32imafdc_ddr |
 |-----------|-----------------|-----------------|----------------|
-| freq/HZ   | 50328698        | 50306416        | 50307727       |
+| freq/HZ   | 50314280        | 50343116        | 50314280       |
 | param/KB  | 481.9           | 481.9           | 481.9          |
 | OPS/MOPS  | 13.58           | 13.58           | 13.58          |
 | buffer/KB | 96.0            | 96.0            | 96.0           |
-| time/ms   | 383.394         | 602.711         | 876.970        |
-| cycle     | 19295720        | 30320230        | 44118367       |
+| time/ms   | 396.723         | 602.265         | 993.773        |
+| cycle     | 19960832        | 30319896        | 50000972       |
 
 #### Example mnist	
 
 | RUNCONFIG | rv32imafdcv_ddr | rv32imafdcp_ddr | rv32imafdc_ddr | rv32imafdcv_ilm | rv32imafdcp_ilm | rv32imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50327060        | 50328698        | 50327060       | 50327060        | 50328698        | 50327060       |
+| freq/HZ   | 50341478        | 50341478        | 50341478       | 50300518        | 50330337        | 50330337       |
 | param/KB  | 1.9             | 1.9             | 1.9            | 1.9             | 1.9             | 1.9            |
 | OPS/MOPS  | 0.02            | 0.02            | 0.02           | 0.02            | 0.02            | 0.02           |
 | buffer/KB | 1.4             | 1.4             | 1.4            | 1.4             | 1.4             | 1.4            |
-| time/ms   | 1.632           | 2.324           | 2.510          | 1.570           | 2.284           | 2.459          |
-| cycle     | 82133           | 116963          | 126320         | 79013           | 114950          | 123754         |
+| time/ms   | 1.638           | 2.281           | 2.709          | 1.569           | 2.226           | 2.650          |
+| cycle     | 82459           | 114828          | 136375         | 78921           | 112035          | 133375         |
 
 #### Example vww	
 
 | RUNCONFIG | rv32imafdcv_ddr | rv32imafdcp_ddr | rv32imafdc_ddr | rv32imafdcv_ilm | rv32imafdcp_ilm | rv32imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50328698        | 50327060        | 50307727       | 50328698        | 50327060        | 50307727       |
+| freq/HZ   | 50341478        | 50312970        | 50341478       | 50300518        | 50330337        | 50300518       |
 | param/KB  | 224.6           | 224.6           | 224.6          | 224.6           | 224.6           | 224.6          |
 | OPS/MOPS  | 7.49            | 7.49            | 7.49           | 7.49            | 7.49            | 7.49           |
 | buffer/KB | 54.0            | 54.0            | 54.0           | 54.0            | 54.0            | 54.0           |
-| time/ms   | 300.367         | 466.724         | 581.984        | 294.253         | 460.156         | 577.571        |
-| cycle     | 15117080        | 23488846        | 29278292       | 14809370        | 23158298        | 29056284       |
+| time/ms   | 299.041         | 455.816         | 641.639        | 289.059         | 451.078         | 636.046        |
+| cycle     | 15054165        | 22933456        | 32301055       | 14539817        | 22702907        | 31993443       |
 
 ### UX900 series
 
-- bitstream: ux900_best_config_vcu118_50M_c6e66aff6b_9b05e5052_202407212346.bit
+- bitstream: ux900_best_config_vcu118_50M_c1dd7f44af_915aefa97_202504141746.bit
 - Board: VCU118
 - CPU clock: 50MHz
 
@@ -304,23 +304,23 @@ If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the do
 
 | RUNCONFIG | rv64imafdcv_ddr | rv64imafdcp_ddr | rv64imafdc_ddr | rv64imafdcv_ilm | rv64imafdcp_ilm | rv64imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50322472        | 50322472        | 50322472       | 50322472        | 50322472        | 50322472       |
+| freq/HZ   | 50322472        | 50322472        | 50320834       | 50322472        | 50322472        | 50320834       |
 | param/KB  | 88.4            | 88.4            | 88.4           | 88.4            | 88.4            | 88.4           |
 | OPS/MOPS  | 3.08            | 3.08            | 3.08           | 3.08            | 3.08            | 3.08           |
 | buffer/KB | 11.0            | 11.0            | 11.0           | 11.0            | 11.0            | 11.0           |
-| time/ms   | 35.361          | 98.098          | 140.772        | 33.501          | 95.081          | 137.811        |
-| cycle     | 1779452         | 4936533         | 7083995        | 1685853         | 4784710         | 6934990        |
+| time/ms   | 36.611          | 99.900          | 168.279        | 34.190          | 97.424          | 165.707        |
+| cycle     | 1842356         | 5027214         | 8467939        | 1720525         | 4902616         | 8338514        |
 
 #### Example kws
 
 | RUNCONFIG | rv64imafdcv_ddr | rv64imafdcp_ddr | rv64imafdc_ddr | rv64imafdcv_ilm | rv64imafdcp_ilm | rv64imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50322472        | 50322472        | 50322472       | 50322472        | 50322472        | 50322472       |
+| freq/HZ   | 50322472        | 50322472        | 50320834       | 50322472        | 50322472        | 50320834       |
 | param/KB  | 8.3             | 8.3             | 8.3            | 8.3             | 8.3             | 8.3            |
 | OPS/MOPS  | 0.24            | 0.24            | 0.24           | 0.24            | 0.24            | 0.24           |
 | buffer/KB | 5.0             | 5.0             | 5.0            | 5.0             | 5.0             | 5.0            |
-| time/ms   | 24.290          | 36.207          | 36.006         | 24.430          | 36.124          | 35.978         |
-| cycle     | 1222332         | 1822025         | 1811910        | 1229377         | 1817848         | 1810501        |
+| time/ms   | 25.660          | 37.139          | 39.957         | 25.659          | 37.055          | 39.844         |
+| cycle     | 1291274         | 1868926         | 2010669        | 1291224         | 1864699         | 2004983        |
 
 #### Example mbnet	
 
@@ -330,30 +330,30 @@ If 512K ILM/DLM still does not meet for some cases(such as mbnet), change the do
 | param/KB  | 481.9           | 481.9           | 481.9          |
 | OPS/MOPS  | 13.58           | 13.58           | 13.58          |
 | buffer/KB | 96.0            | 96.0            | 96.0           |
-| time/ms   | 428.969         | 579.688         | 910.920        |
-| cycle     | 21586780        | 29171333        | 45839746       |
+| time/ms   | 411.658         | 594.131         | 1003.393       |
+| cycle     | 20715648        | 29898140        | 50493216       |
 
 #### Example mnist	
 
 | RUNCONFIG | rv64imafdcv_ddr | rv64imafdcp_ddr | rv64imafdc_ddr | rv64imafdcv_ilm | rv64imafdcp_ilm | rv64imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50322472        | 50322472        | 50322472       | 50322472        | 50322472        | 50322472       |
+| freq/HZ   | 50311659        | 50322472        | 50320834       | 50322472        | 50322472        | 50320834       |
 | param/KB  | 1.9             | 1.9             | 1.9            | 1.9             | 1.9             | 1.9            |
 | OPS/MOPS  | 0.02            | 0.02            | 0.02           | 0.02            | 0.02            | 0.02           |
 | buffer/KB | 1.4             | 1.4             | 1.4            | 1.4             | 1.4             | 1.4            |
-| time/ms   | 1.620           | 2.700           | 2.596          | 1.547           | 2.654           | 2.542          |
-| cycle     | 81522           | 135870          | 130637         | 77848           | 133555          | 127919         |
+| time/ms   | 1.702           | 2.746           | 2.854          | 1.597           | 2.690           | 2.789          |
+| cycle     | 85630           | 138185          | 143615         | 80364           | 135367          | 140344         |
 
 #### Example vww	
 
 | RUNCONFIG | rv64imafdcv_ddr | rv64imafdcp_ddr | rv64imafdc_ddr | rv64imafdcv_ilm | rv64imafdcp_ilm | rv64imafdc_ilm |
 |-----------|-----------------|-----------------|----------------|-----------------|-----------------|----------------|
-| freq/HZ   | 50322472        | 50322472        | 50322472       | 50322472        | 50322472        | 50322472       |
+| freq/HZ   | 50341478        | 50312970        | 50341478       | 50300518        | 50330337        | 50300518       |
 | param/KB  | 224.6           | 224.6           | 224.6          | 224.6           | 224.6           | 224.6          |
 | OPS/MOPS  | 7.49            | 7.49            | 7.49           | 7.49            | 7.49            | 7.49           |
 | buffer/KB | 54.0            | 54.0            | 54.0           | 54.0            | 54.0            | 54.0           |
-| time/ms   | 331.818         | 423.680         | 605.406        | 319.787         | 415.162         | 598.610        |
-| cycle     | 16697902        | 21320624        | 30465526       | 16092472        | 20891978        | 30123534       |
+| time/ms   | 299.041         | 455.816         | 641.639        | 289.059         | 451.078         | 636.046        |
+| cycle     | 15054165        | 22933456        | 32301055       | 14539817        | 22702907        | 31993443       |
 
 > **Note:** Other CPU series can be easily tested using Nuclei SDK
 > using different fpga bitstream.
