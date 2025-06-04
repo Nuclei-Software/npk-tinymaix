@@ -61,8 +61,8 @@ configs:
         hwcfg: n200.json
     # cpu core name
     n300:
-        fpga: ku060
-        bitstream: n300_software_best_config_ku060.bit
+        fpga: ddr200t
+        bitstream: n300_software_best_config_ddr200t.bit
         ncycm: n300fdbp
         # make sure openocd path match with your SOC variable settings
         openocd_cfg: SoC/evalsoc/Board/nuclei_fpga_eval/openocd_evalsoc.cfg

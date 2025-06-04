@@ -98,7 +98,7 @@ run_hw:
     expire_in: 2 day
   tags:
     - env::shell
-    - host::whss3
+    - host::whss7
     - net::outside
   script:
     - source ${SHAREENVLOC}/env.sh
@@ -129,7 +129,7 @@ show_proc:
     - freeboard.sh $OP
   tags:
     - env::shell
-    - host::whss3
+    - host::whss7
     - net::outside
 
 clean_proc:
@@ -154,5 +154,5 @@ clean_proc:
     - freeboard.sh $OP
   tags:
     - env::shell
-    - host::whss3
+    - host::whss7
     - net::outside
